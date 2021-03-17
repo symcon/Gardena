@@ -7,18 +7,12 @@ declare(strict_types=1);
     class GardenaCloud extends WebOAuthModule
     {
         const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1';
-        const AUTOMOVER_CONNECT_SYSTEM_BASE_URL = 'https://api.amc.husqvarna.dev/v1';
         private const LOCATIONS = '/locations/';
         private const WEBSOCKET = '/websocket';
 
-        //This one needs to be available on our OAuth client backend.
-        //Please contact us to register for an identifier: https://www.symcon.de/kontakt/#OAuth
         private $oauthIdentifer = 'husqvarna';
-        //private $oauthIdentifer = "test_staging";
 
-        //You normally do not need to change this
         private $oauthServer = 'oauth.ipmagic.de';
-        //private $oauthServer = "oauth.symcon.cloud";
 
         public function __construct($InstanceID)
         {
