@@ -1,0 +1,14 @@
+{
+    "id": "{A927BE2B-EFCC-0AB7-533B-54F2981AFC9E}",
+    "name": "Gardena Device",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": ["{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+    "childRequirements": [],
+    "implemented": [
+        "{56245A2E-9937-C486-B7C0-DC30275EEDF6}"
+    ],
+    "prefix": "GARDENA",
+    "url": "https://symcon.de"
+}

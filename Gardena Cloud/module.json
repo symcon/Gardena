@@ -1,0 +1,22 @@
+{
+	"id": "{3BD971CA-8DF6-CF4B-736C-2B4CFD2ED7F3}",
+	"name": "Gardena Cloud",
+	"type": 2,
+	"vendor": "",
+	"aliases": 
+	[
+		"Gardena Cloud"
+	],
+	"parentRequirements": ["{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}"],
+	"childRequirements": [
+		"{56245A2E-9937-C486-B7C0-DC30275EEDF6}",
+		"{CD95FD06-60D8-FCE8-3AE0-64E40945D8F3}",
+		"{B5A046FC-74AB-FB16-202F-A8D388E7D5CC}",
+		"{AE256F37-CF77-34BB-E45D-B51DB6CBF640}",
+		"{6ECF55BE-818E-DC70-43C3-17C32F10E119}",
+		"{6C8B381C-8A2B-1247-56AE-7E149E75FB9C}"
+	],
+    "implemented": ["{018EF6B5-AB94-40C6-AA53-46943E824ACF}", "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+	"prefix": "GARDENA",
+	"url" : "https://symcon.de"
+}

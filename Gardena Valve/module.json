@@ -1,0 +1,14 @@
+{
+    "id": "{68FFB073-8C93-C74C-B3CB-02778AEDE152}",
+    "name": "Gardena Valve",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": ["{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+    "childRequirements": [],
+    "implemented": [
+        "{6ECF55BE-818E-DC70-43C3-17C32F10E119}"
+    ],
+    "prefix": "GARDENA",
+    "url": "https://symcon.de"
+}

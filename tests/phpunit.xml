@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit>
+    <php>
+        <const name="PHPUNIT_TESTSUITE" value="true"/>
+    </php>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">../Gardena</directory>
+            <directory suffix=".php">../Gardena Cloud</directory>
+            <directory suffix=".php">../Gardena Common</directory>
+            <directory suffix=".php">../Gardena Configurator</directory>
+            <directory suffix=".php">../Gardena Device</directory>
+            <directory suffix=".php">../Gardena Sensor</directory>
+        </whitelist>
+    </filter>
+</phpunit>

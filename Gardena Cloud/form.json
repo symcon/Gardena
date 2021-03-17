@@ -1,0 +1,15 @@
+{
+	"actions":
+	[
+		{
+			"type": "Button",
+			"caption": "Register",
+			"onClick": "echo GARDENA_Register($id);"
+		},
+		{
+			"type": "Button",
+			"caption": "Reactivate",
+			"onClick": "GARDENA_FetchDevices($id);"
+		}
+	]
+}
