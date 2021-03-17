@@ -8,7 +8,6 @@ declare(strict_types=1);
     {
         const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1';
         const AUTOMOVER_CONNECT_SYSTEM_BASE_URL = 'https://api.amc.husqvarna.dev/v1';
-        const APIKEY = 'b42b22bf-5482-4f0b-b78a-9c5558ff5b4a';
         private const LOCATIONS = '/locations/';
         private const WEBSOCKET = '/websocket';
 
@@ -218,9 +217,8 @@ declare(strict_types=1);
         {
             $opts = [
                 'http'=> [
-                    'method' => 'GET',
-                    'header' => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n" .
-                    "Authorization-Provider: husqvarna\r\nX-Api-Key: " . self::APIKEY . "\r\n",
+                    'method'        => 'GET',
+                    'header'        => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n",
                     'ignore_errors' => true
                 ]
             ];
@@ -242,7 +240,6 @@ declare(strict_types=1);
                 'http'=> [
                     'method' => 'POST',
                     'header' => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n" .
-                    "Authorization-Provider: husqvarna\r\nX-Api-Key: " . self::APIKEY . "\r\n" .
                     'Content-Length: ' . strlen($content) . "\r\n" .
                     'Content-Type: application/vnd.api+json' . "\r\n",
                     'content'       => $content,
