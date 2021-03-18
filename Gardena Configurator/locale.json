@@ -5,7 +5,7 @@
             "Configurator": "Konfigurator",
             "Serial Number": "Seriennummer",
             "RF Link State": "RF Link Status",
-            "Model Typ": "Model Typ",
+            "Model Type": "Model Typ",
             "InstanceID": "InstanceID"
         }
     }
