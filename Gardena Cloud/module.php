@@ -8,7 +8,7 @@ declare(strict_types=1);
     {
         const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1/';
 
-        private $oauthIdentifer = 'husqvarna';
+        private $oauthIdentifer = 'gardena';
 
         private $oauthServer = 'oauth.ipmagic.de';
 
@@ -57,7 +57,7 @@ declare(strict_types=1);
         {
             $data = json_decode($JSONString);
             $payload = $data->Buffer;
-            $this->SendDebug('Receive Gardena Websocket Payload', $payload, 0);
+            $this->SendDebug('Receive WebSocket', $payload, 0);
             $this->SendDataToChildren(json_encode(['DataID' => '{56245A2E-9937-C486-B7C0-DC30275EEDF6}', 'Buffer' => $payload]));
         }
 
@@ -65,7 +65,7 @@ declare(strict_types=1);
         {
             $endpoint = json_decode($Data, true)['Endpoint'];
             $result = $this->GetData($endpoint);
-            $this->SendDebug($endpoint, json_encode($result), 0);
+            $this->SendDebug($endpoint, $result, 0);
             return $result;
         }
 
