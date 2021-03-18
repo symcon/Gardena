@@ -1,8 +1,25 @@
 {
     "translations": {
-        "de": {
-            "Translation 1": "Übersetzung 1",
-            "Translation 2": "Übersetzung 2"
-        }
+      "de": {
+        "Ok": "Ok",
+        "Unavailable": "Nicht erreichbar",
+        "Open": "Offen",
+        "Closed": "Geschlossen",
+        "Online": "Online",
+        "Offline": "Offline",
+        "No Message": "Keine Mitteilungen",
+        "Battery Level": "Batterie Ladung",
+        "Battery State": "Batterie Status",
+        "Link Level": "RF Link Level",
+        "Link State": "RF Link Status",
+        "Soil Humidity": "Bodenfeuchte",
+        "Soil Temperature": "Bodentemperatur",
+        "Ambient Temperature": "Umgebungstemperatur",
+        "Light Intensity": "Licht Intensität",
+        "Activity": "Aktivität",
+        "State": "Status",
+        "Last Error": "Fehlercode",
+        "No Battery": "Keine Batterie"
+      }
     }
-}
+  }

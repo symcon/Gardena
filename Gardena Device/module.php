@@ -43,7 +43,7 @@ class GardenaDevice extends IPSModule
         if (!IPS_VariableProfileExists('Gardena.Battery')) {
             IPS_CreateVariableProfile('Gardena.Battery', VARIABLETYPE_STRING);
             IPS_SetVariableProfileAssociation('Gardena.Battery', 'OK', $this->Translate('Ok'), '', 0x00ff00);
-            IPS_SetVariableProfileAssociation('Gardena.Battery', 'NO_BATTERY', $this->Translate('No Battery'), '', 0xff0000);
+            IPS_SetVariableProfileAssociation('Gardena.Battery', 'NO_BATTERY', $this->Translate('No Battery'), '', -1);
         }
     }
 
