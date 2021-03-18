@@ -171,7 +171,6 @@ class GardenaConfigurator extends IPSModule
             'ModelType'    => $attributes['modelType']['value'],
             'LinkState'    => $attributes['rfLinkState']['value'],
             'parent'       => $location['data']['id'] . $location['data']['type'],
-            'instanceID'   => $this->getInstanceIDForGuid($device['id'], $moduleGUID)
         ];
     }
 }

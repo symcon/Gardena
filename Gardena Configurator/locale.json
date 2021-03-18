@@ -1,7 +1,12 @@
 {
     "translations": {
         "de": {
-            "Device Information": "Geräteinformationen"
+            "Device Information": "Geräteinformationen",
+            "Configurator": "Konfigurator",
+            "Serial Number": "Seriennummer",
+            "RF Link State": "RF Link Status",
+            "Model Typ": "Model Typ",
+            "InstanceID": "InstanceID"
         }
     }
 }
