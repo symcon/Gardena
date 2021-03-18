@@ -170,7 +170,7 @@ class GardenaConfigurator extends IPSModule
             'SerialNumber' => $attributes['serial']['value'],
             'ModelType'    => $attributes['modelType']['value'],
             'LinkState'    => $attributes['rfLinkState']['value'],
-            'parent'       => $location['data']['id'] . $location['data']['type'],
+            'parent'       => $location['data']['id'] . $location['data']['type']
         ];
     }
 }
