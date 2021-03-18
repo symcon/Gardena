@@ -6,9 +6,7 @@ declare(strict_types=1);
 
     class GardenaCloud extends WebOAuthModule
     {
-        const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1';
-        private const LOCATIONS = '/locations/';
-        private const WEBSOCKET = '/websocket';
+        const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1/';
 
         private $oauthIdentifer = 'husqvarna';
 
@@ -25,7 +23,6 @@ declare(strict_types=1);
             parent::Create();
 
             $this->RegisterAttributeString('Token', '');
-            $this->RegisterAttributeString('LocationID', '');
 
             $this->RequireParent('{D68FD31F-0E90-7019-F16C-1949BD3079EF}');
 
@@ -53,29 +50,15 @@ declare(strict_types=1);
             $data = json_decode($JSONString);
             $payload = $data->Buffer;
             $this->SendDebug('Receive Gardena Websocket Payload', $payload, 0);
-            if ($payload != '[]') {
-                $this->SendDataToChildren(json_encode(['DataID' => '{56245A2E-9937-C486-B7C0-DC30275EEDF6}', 'Buffer' => $payload]));
-                $this->SendDataToChildren(json_encode(['DataID' => '{B5A046FC-74AB-FB16-202F-A8D388E7D5CC}', 'Buffer' => $payload]));
-                $this->SendDataToChildren(json_encode(['DataID' => '{AE256F37-CF77-34BB-E45D-B51DB6CBF640}', 'Buffer' => $payload]));
-                $this->SendDataToChildren(json_encode(['DataID' => '{6ECF55BE-818E-DC70-43C3-17C32F10E119}', 'Buffer' => $payload]));
-                $this->SendDataToChildren(json_encode(['DataID' => '{6C8B381C-8A2B-1247-56AE-7E149E75FB9C}', 'Buffer' => $payload]));
-            }
+            $this->SendDataToChildren(json_encode(['DataID' => '{56245A2E-9937-C486-B7C0-DC30275EEDF6}', 'Buffer' => $payload]));
         }
 
-        public function ForwardData($data)
+        public function ForwardData($Data)
         {
-            $action = json_decode($data, true)['RequestData'];
-            switch ($action) {
-                case 'snapshot':
-                    $snapshot = $this->GetData(self::SMART_SYSTEM_BASE_URL . self::LOCATIONS . $this->ReadAttributeString('LocationID'));
-                    $this->SendDebug('Snapshot', json_encode($snapshot), 0);
-
-                    return $snapshot;
-
-                default:
-                    return false;
-
-            }
+            $endpoint = json_decode($Data, true)['Endpoint'];
+            $result = $this->GetData($endpoint);
+            $this->SendDebug($endpoint, json_encode($result), 0);
+            return $result;
         }
 
         public function Ping()
@@ -86,15 +69,31 @@ declare(strict_types=1);
             ]));
         }
 
-        public function RequestStatus()
+        public function UpdateWebSocket()
         {
-            echo $this->GetData('https://' . $this->oauthServer . '/forward');
-        }
+            $locationID = json_decode($this->GetData('locations'), true)['data'][0]['id'];
+            $payload = json_encode(
+                [
+                    'data' => [
+                        'id'        => 'does-not-matter',
+                        'type'      => 'WEBSOCKET',
+                        'attributes'=> [
+                            'locationId'=> $locationID
+                        ]
+                    ]
+                ]
+            );
 
-        public function FetchDevices()
-        {
-            $this->FetchLocation();
-            $this->FetchWebSocketUrl();
+            $response = json_decode($this->PostData('websocket', $payload), true);
+            $url = $response['data']['attributes']['url'];
+            $this->SendDebug('websocket', $url, 0);
+            $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+            if (!IPS_GetProperty($parent, 'Active')) {
+                echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to word');
+                return;
+            }
+            IPS_SetProperty($parent, 'URL', $url);
+            IPS_ApplyChanges($parent);
         }
 
         /**
@@ -207,7 +206,7 @@ declare(strict_types=1);
             return $Token;
         }
 
-        private function GetData($url)
+        private function GetData($endpoint)
         {
             $opts = [
                 'http'=> [
@@ -218,7 +217,7 @@ declare(strict_types=1);
             ];
             $context = stream_context_create($opts);
 
-            $result = file_get_contents($url, false, $context);
+            $result = file_get_contents(self::SMART_SYSTEM_BASE_URL . $endpoint, false, $context);
 
             if ((strpos($http_response_header[0], '200') === false)) {
                 echo $http_response_header[0] . PHP_EOL . $result;
@@ -228,7 +227,7 @@ declare(strict_types=1);
             return $result;
         }
 
-        private function PostData($url, $content)
+        private function PostData($endpoint, $content)
         {
             $opts = [
                 'http'=> [
@@ -242,7 +241,7 @@ declare(strict_types=1);
             ];
             $context = stream_context_create($opts);
 
-            $result = file_get_contents($url, false, $context);
+            $result = file_get_contents(self::SMART_SYSTEM_BASE_URL . $endpoint, false, $context);
 
             if ((strpos($http_response_header[0], '201') === false)) {
                 echo $http_response_header[0] . PHP_EOL . $result;
@@ -250,38 +249,5 @@ declare(strict_types=1);
             }
 
             return $result;
-        }
-
-        private function FetchLocation()
-        {
-            $location_data = json_decode($this->GetData(self::SMART_SYSTEM_BASE_URL . self::LOCATIONS), true);
-            if ($location_data) {
-                $this->SendDebug('location', json_encode($location_data), 0);
-                $this->WriteAttributeString('LocationID', $location_data['data'][0]['id']);
-            }
-        }
-
-        private function FetchWebSocketUrl()
-        {
-            $payload = json_encode(
-                [
-                    'data' => [
-                        'id'        => 'does-not-matter',
-                        'type'      => 'WEBSOCKET',
-                        'attributes'=> [
-                            'locationId'=> $this->ReadAttributeString('LocationID')
-                        ]
-                    ]
-                ]);
-
-            $response = json_decode($this->PostData(self::SMART_SYSTEM_BASE_URL . self::WEBSOCKET, $payload), true);
-            if ($response) {
-                $url = $response['data']['attributes']['url'];
-                $this->SendDebug('websocket', $url, 0);
-                $parent = $ParentID = @IPS_GetInstance($this->InstanceID)['ConnectionID'];
-                IPS_SetProperty($parent, 'URL', $url);
-                IPS_SetProperty($parent, 'Active', true);
-                IPS_ApplyChanges($parent);
-            }
         }
     }

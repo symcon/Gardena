@@ -7,9 +7,13 @@
 			"onClick": "echo GARDENA_Register($id);"
 		},
 		{
+			"type": "Label",
+			"caption": "When resetting the WebSocket all devices and theire values will be updated"
+		},
+		{
 			"type": "Button",
-			"caption": "Reactivate",
-			"onClick": "GARDENA_FetchDevices($id);"
+			"caption": "Reset WebSocket",
+			"onClick": "GARDENA_UpdateWebSocket($id);"
 		}
 	]
 }

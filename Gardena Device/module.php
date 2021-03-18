@@ -60,14 +60,10 @@ class GardenaDevice extends IPSModule
 
         if (IPS_GetKernelRunlevel() == KR_READY) {
             if ($this->HasActiveParent()) {
-                $snapshot = $this->SendDataToParent(json_encode([
-                    'DataID'      => '{793F0A25-9FFE-DC27-25D6-8A574EE74C39}',
-                    'RequestData' => 'snapshot'
-                ]));
-                $this->SendDebug('Snapshot', $snapshot, 0);
-                foreach (json_decode($snapshot, true)['included'] as $part) {
-                    $this->SendDebug('Snapshot', json_encode($part), 0);
-                    $this->processSnapshot(json_encode($part));
+                $locationID = $this->requestDataFromParent('locations')['data'][0]['id'];
+                $location = $this->requestDataFromParent("locations/$locationID");
+                foreach ($location['included'] as $data) {
+                    $this->processData($data);
                 }
             }
         }
@@ -75,52 +71,52 @@ class GardenaDevice extends IPSModule
 
     public function ReceiveData($JSONString)
     {
-        $data = json_decode($JSONString);
-        $snapshot = $data->Buffer;
-        $this->SendDebug('Receive Snapshot', $snapshot, 0);
-        if ($snapshot != '[]') {
-            $this->processSnapshot($snapshot);
-        }
+        //Decoding dataflow
+        $data = json_decode($JSONString, true);
+        //Decoding websocket event
+        $this->processData(json_decode($data['Buffer'], true));
     }
 
-    private function processSnapshot($snapshot)
+    private function processData($data)
     {
-        $data = json_decode($snapshot, true);
-        $this->SendDebug('META', json_encode($this->metadata), 0);
         //Only process data meant for this intance
-        if ($this->type && $data['type'] != $this->type) {
+        if ($data['type'] != $this->type) {
             return;
         }
-        if ($data['id'] == $this->ReadPropertyString('ID')) {
-            if (isset($data['attributes'])) {
-                $attributes = $data['attributes'];
-                $this->SendDebug('Attributes', json_encode($attributes), 0);
-                foreach ($attributes as $attribute => $value) {
-                    if (isset($this->metadata[$attribute])) {
-                        $meta = $this->metadata[$attribute];
-                        $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], 0, true);
-                        $this->SetValue($attribute, $value['value']);
-                    } elseif (!in_array($attribute, $this->exclude)) {
-                        $variablType = VARIABLETYPE_STRING;
-                        $valueType = gettype($value['value']);
-                        switch ($valueType) {
+        //Only process data meant matching our id
+        if ($data['id'] != $this->ReadPropertyString('ID')) {
+            return;
+        }
+
+        $this->SendDebug('Data', json_encode($data), 0);
+
+        foreach ($data['attributes'] as $attribute => $value) {
+            if (isset($this->metadata[$attribute])) {
+                $meta = $this->metadata[$attribute];
+                $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], 0, true);
+                $this->SetValue($attribute, $value['value']);
+            } elseif (!in_array($attribute, $this->exclude)) {
+                switch (gettype($value['value'])) {
                             case 'double':
                             case 'integer':
                                 $variablType = VARIABLETYPE_FLOAT;
                                 break;
 
+                            default:
+                                $variableType = VARIABLETYPE_STRING;
+                                break;
                         }
-                        $this->MaintainVariable($attribute, $attribute, $variablType, '', 0, true);
-                        $this->SetValue($attribute, $value['value']);
-                    }
-                }
-            }
-        } else {
-            if (isset($data['relationships']['devices']['data'])) {
-                if ($data['relationships']['devices']['data']['id'] == $this->ReadPropertyString['ID']) {
-                    $this->SendDebug('NewAttribute', json_encode($data['attributes']), 0);
-                }
+                $this->MaintainVariable($attribute, $attribute, $variableType, '', 0, true);
+                $this->SetValue($attribute, $value['value']);
             }
         }
+    }
+
+    private function requestDataFromParent($endpoint)
+    {
+        return json_decode($this->SendDataToParent(json_encode([
+            'DataID'      => '{793F0A25-9FFE-DC27-25D6-8A574EE74C39}',
+            'Endpoint'    => $endpoint
+        ])), true);
     }
 }

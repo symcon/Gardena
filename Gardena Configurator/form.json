@@ -1,5 +1,31 @@
 {
-    "elements": [],
-    "actions": [],
-    "status": []
+	"elements": [],
+	"actions": [{
+		"type": "Configurator",
+		"caption": "Configurator",
+		"delete": true,
+		"columns": [{
+			"caption": "ID",
+			"name": "ID",
+			"width": "300px",
+			"visible": false
+		}, {
+			"caption": "Name",
+			"name": "Name",
+			"width": "auto"
+		}, {
+			"caption": "Serial Number",
+			"name": "SerialNumber",
+			"width": "200px"
+		}, {
+			"caption": "RF Link State",
+			"name": "LinkState",
+			"width": "150px"
+		}, {
+			"caption": "Model Type",
+			"name": "ModelType",
+			"width": "300px"
+		}],
+		"values": []
+	}]
 }
