@@ -41,7 +41,7 @@ class GardenaConfigurator extends IPSModule
         $location = json_decode($this->requestLocation(), true);
         $mainDevices = $location['data']['relationships']['devices']['data'];
         $allDevices = $location['included'];
-        $location = [[
+        $locations = [[
             'Name'         => $location['data']['attributes']['name'],
             'SerialNumber' => '',
             'ModelType'    => '',
@@ -93,7 +93,7 @@ class GardenaConfigurator extends IPSModule
         }
 
         //Make shure parents are declated before the children
-        $form['actions'][0]['values'] = array_merge($location, $devices, $services);
+        $form['actions'][0]['values'] = array_merge($locations, $devices, $services);
         return json_encode($form);
     }
 
