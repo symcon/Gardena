@@ -58,32 +58,38 @@ class GardenaConfigurator extends IPSModule
                 if ($device['id'] == $id) {
                     switch ($device['type']) {
                             case 'COMMON':
+                                //Add device to 1 level
                                 $devices[] = $this->buildDeviceValues($device, $mainDevice, $location);
                                 break;
 
                             case 'DEVICE':
                                 foreach ($device['relationships']['services']['data'] as $service) {
-                                    if ($service['type'] != 'COMMON') {
-                                        $moduleGUID = $this->getGuidForType($service['type']);
-                                        $services[] = [
-                                            'id'           => $service['id'] . $service['type'],
-                                            'ID'           => $service['id'],
-                                            'Name'         => $this->getServiceName($service['id'], $allDevices),
-                                            'SerialNumber' => '',
-                                            'ModelType'    => '',
-                                            'LinkState'    => '',
-                                            'parent'       => $id . $mainDevice['type'],
-                                            'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
-                                            'create'       => [
-                                                'moduleID'      => $moduleGUID,
-                                                'configuration' => [
-                                                    'ID' => $service['id']
-                                                ],
-                                                'name' => $this->getServiceName($service['id'], $allDevices),
-                                                // 'location' => $location['data']
-                                            ]
-                                        ];
+                                    $moduleGUID = $this->getGuidForType($service['type']);
+                                    $deviceName = $this->getServiceName($service['id'], $allDevices);
+                                    if ($service['type'] == 'COMMON') {
+                                        $deviceName .= ' ' . $this->Translate('Device Information');
                                     }
+                                    $services[] = [
+                                        'id'           => $service['id'] . $service['type'],
+                                        'ID'           => $service['id'],
+                                        'Name'         => $deviceName,
+                                        'SerialNumber' => '',
+                                        'ModelType'    => '',
+                                        'LinkState'    => '',
+                                        'parent'       => $id . $mainDevice['type'],
+                                        'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
+                                        'create'       => [
+                                            'moduleID'      => $moduleGUID,
+                                            'configuration' => [
+                                                'ID' => $service['id']
+                                            ],
+                                            'name'     => $deviceName,
+                                            'location' => [
+                                                $location['data']['attributes']['name'],
+                                                $this->getCommonDeviceName($service['id'], $allDevices)
+                                            ]
+                                        ]
+                                    ];
                                 }
                                 break;
 
@@ -132,6 +138,16 @@ class GardenaConfigurator extends IPSModule
         return 'unknown';
     }
 
+    private function getCommonDeviceName($id, $devices)
+    {
+        foreach ($devices as $device) {
+            if ($devices['id'] = 'COMMON' && $device['id'] == $id && isset($device['attributes']['name']['value'])) {
+                return $device['attributes']['name']['value'];
+            }
+        }
+        return 'unknown';
+    }
+
     private function getInstanceIDForGuid($id, $guid)
     {
         $instanceIDs = IPS_GetInstanceListByModuleID($guid);
@@ -155,14 +171,7 @@ class GardenaConfigurator extends IPSModule
             'ModelType'    => $attributes['modelType']['value'],
             'LinkState'    => $attributes['rfLinkState']['value'],
             'parent'       => $location['data']['id'] . $location['data']['type'],
-            'instanceID'   => $this->getInstanceIDForGuid($device['id'], $moduleGUID),
-            'create'       => [
-                'moduleID'      => $moduleGUID,
-                'configuration' => [
-                    'ID' => $device['id']
-                ],
-                'name' => $attributes['name']['value']
-            ]
+            'instanceID'   => $this->getInstanceIDForGuid($device['id'], $moduleGUID)
         ];
     }
 }

@@ -116,7 +116,7 @@ declare(strict_types=1);
             $this->SendDebug('websocket', $url, 0);
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             if (!IPS_GetProperty($parent, 'Active')) {
-                echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to word');
+                echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to work');
                 return;
             }
             IPS_SetProperty($parent, 'URL', $url);
