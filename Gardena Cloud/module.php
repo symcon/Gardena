@@ -26,13 +26,21 @@ declare(strict_types=1);
 
             $this->RequireParent('{D68FD31F-0E90-7019-F16C-1949BD3079EF}');
 
-            $this->RegisterTimer('PingWebsocket', (120 * 1000), 'GARDENA_Ping($_IPS[\'TARGET\']);');
+            $this->RegisterTimer('PingWebSocket', (120 * 1000), 'GARDENA_Ping($_IPS[\'TARGET\']);');
+
+            $this->RegisterMessage(IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
         }
 
         public function ApplyChanges()
         {
             //Never delete this line!
             parent::ApplyChanges();
+
+            if (!$this->ReadAttributeString('Token')) {
+                $this->SetStatus(IS_INACTIVE);
+                return;
+            }
+            $this->SetStatus(IS_ACTIVE);
         }
 
         /**
@@ -61,6 +69,21 @@ declare(strict_types=1);
             return $result;
         }
 
+        public function MessageSink($Timestamp, $SenderID, $MessageID, $Data)
+        {
+            $parentID = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+            if ($SenderID == $parentID) {
+                switch ($MessageID) {
+                    case IM_CHANGESTATUS:
+                        //Update websocket if faulty and the url matches the api
+                        if ($Data[0] >= IS_EBASE && strpos(IPS_GetProperty($parentID, 'URL'), 'husqvarnagroup.net')) {
+                            $this->UpdateWebSocket();
+                        }
+                        break;
+                }
+            }
+        }
+
         public function Ping()
         {
             $this->SendDataToParent(json_encode([
@@ -71,6 +94,10 @@ declare(strict_types=1);
 
         public function UpdateWebSocket()
         {
+            //Only update if user is already registerd
+            if ($this->GetStatus() != IS_ACTIVE) {
+                return;
+            }
             $locationID = json_decode($this->GetData('locations'), true)['data'][0]['id'];
             $payload = json_encode(
                 [
@@ -96,6 +123,16 @@ declare(strict_types=1);
             IPS_ApplyChanges($parent);
         }
 
+        public function GetConfigurationForParent()
+        {
+            $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+            $url = IPS_GetProperty($parent, 'URL');
+            return json_encode([
+                'URL'               => $url ? $url : 'wss://echo.websocket.org',
+                'VerifyCertificate' => true
+            ]);
+        }
+
         /**
          * This function will be called by the OAuth control. Visibility should be protected!
          */
@@ -113,7 +150,11 @@ declare(strict_types=1);
                 $this->SendDebug('ProcessOAuthData', "OK! Let's save the Refresh Token permanently", 0);
 
                 $this->WriteAttributeString('Token', $token);
+                $this->SetStatus(IS_ACTIVE);
                 $this->UpdateFormField('Token', 'caption', 'Token: ' . substr($token, 0, 16) . '...');
+                if ($this->HasActiveParent()) {
+                    $this->UpdateWebSocket();
+                }
             } else {
 
                 //Just print raw post data!
@@ -193,6 +234,7 @@ declare(strict_types=1);
                     $this->SendDebug('FetchAccessToken', "NEW! Let's save the updated Refresh Token permanently", 0);
 
                     $this->WriteAttributeString('Token', $data->refresh_token);
+                    $this->SetStatus(IS_ACTIVE);
                     $this->UpdateFormField('Token', 'caption', 'Token: ' . substr($data->refresh_token, 0, 16) . '...');
                 }
             }

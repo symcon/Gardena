@@ -33,16 +33,21 @@ class GardenaConfigurator extends IPSModule
 
     public function GetConfigurationForm()
     {
-        $snapshot = json_decode($this->requestLocation(), true);
-        $mainDevices = $snapshot['data']['relationships']['devices']['data'];
-        $allDevices = $snapshot['included'];
+        $form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
+        //Return if parent is not confiured
+        if (!$this->HasActiveParent()) {
+            return json_encode($form);
+        }
+        $location = json_decode($this->requestLocation(), true);
+        $mainDevices = $location['data']['relationships']['devices']['data'];
+        $allDevices = $location['included'];
         $location = [[
-            'Name'         => $snapshot['data']['attributes']['name'],
+            'Name'         => $location['data']['attributes']['name'],
             'SerialNumber' => '',
             'ModelType'    => '',
             'LinkState'    => '',
-            'id'           => $snapshot['data']['id'] . $snapshot['data']['type'],
-            'ID'           => $snapshot['data']['id'],
+            'id'           => $location['data']['id'] . $location['data']['type'],
+            'ID'           => $location['data']['id'],
             'expanded'     => true
         ]];
         $devices = [];
@@ -53,7 +58,7 @@ class GardenaConfigurator extends IPSModule
                 if ($device['id'] == $id) {
                     switch ($device['type']) {
                             case 'COMMON':
-                                $devices[] = $this->buildDeviceValues($device, $mainDevice, $snapshot);
+                                $devices[] = $this->buildDeviceValues($device, $mainDevice, $location);
                                 break;
 
                             case 'DEVICE':
@@ -74,7 +79,8 @@ class GardenaConfigurator extends IPSModule
                                                 'configuration' => [
                                                     'ID' => $service['id']
                                                 ],
-                                                'name' => $this->getServiceName($service['id'], $allDevices)
+                                                'name' => $this->getServiceName($service['id'], $allDevices),
+                                                // 'location' => $location['data']
                                             ]
                                         ];
                                     }
@@ -86,7 +92,6 @@ class GardenaConfigurator extends IPSModule
             }
         }
 
-        $form = json_decode(file_get_contents(__DIR__ . '/form.json'), true);
         //Make shure parents are declated before the children
         $form['actions'][0]['values'] = array_merge($location, $devices, $services);
         return json_encode($form);
@@ -138,7 +143,7 @@ class GardenaConfigurator extends IPSModule
         return 0;
     }
 
-    private function buildDeviceValues($device, $mainDevice, $snapshot)
+    private function buildDeviceValues($device, $mainDevice, $location)
     {
         $attributes = $device['attributes'];
         $moduleGUID = $this->getGuidForType('COMMON');
@@ -149,7 +154,7 @@ class GardenaConfigurator extends IPSModule
             'SerialNumber' => $attributes['serial']['value'],
             'ModelType'    => $attributes['modelType']['value'],
             'LinkState'    => $attributes['rfLinkState']['value'],
-            'parent'       => $snapshot['data']['id'] . $snapshot['data']['type'],
+            'parent'       => $location['data']['id'] . $location['data']['type'],
             'instanceID'   => $this->getInstanceIDForGuid($device['id'], $moduleGUID),
             'create'       => [
                 'moduleID'      => $moduleGUID,
