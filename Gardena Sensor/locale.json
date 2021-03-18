@@ -1,8 +1,10 @@
 {
     "translations": {
         "de": {
-            "Translation 1": "Übersetzung 1",
-            "Translation 2": "Übersetzung 2"
+            "Soil Humidity": "Bodenfeuchte",
+            "Soil Temperature": "Bodentemperatur",
+            "Ambient Temperature": "Umgebungstemperatur",
+            "Light Intensity": "Licht Intensität"
         }
     }
 }

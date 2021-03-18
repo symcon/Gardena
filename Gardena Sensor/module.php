@@ -24,26 +24,6 @@ class GardenaSensor extends GardenaDevice
             'displayName'  => 'Light Intensity',
             'variableType' => VARIABLETYPE_FLOAT,
             'profile'      => '~Illumination.F'
-        ],
-        'batteryLevel' => [
-            'displayName'  => 'Battery Level',
-            'variableType' => VARIABLETYPE_INTEGER,
-            'profile'      => '~Battery.100',
-        ],
-        'batteryState' => [
-            'displayName'  => 'Battery State',
-            'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.Battery'
-        ],
-        'rfLinkLevel' => [
-            'displayName'  => 'Link Level',
-            'variableType' => VARIABLETYPE_INTEGER,
-            'profile'      => '~Intensity.100'
-        ],
-        'rfLinkState' => [
-            'displayName'  => 'Link State',
-            'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.ReachableStatus'
         ]
     ];
     protected $exclude = ['name', 'serial', 'modelType'];

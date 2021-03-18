@@ -67,7 +67,7 @@ class GardenaConfigurator extends IPSModule
                                     $moduleGUID = $this->getGuidForType($service['type']);
                                     $deviceName = $this->getServiceName($service['id'], $allDevices);
                                     if ($service['type'] == 'COMMON') {
-                                        $deviceName .= ' ' . $this->Translate('Device Information');
+                                        $deviceName = $this->Translate('Device Information');
                                     }
                                     $services[] = [
                                         'id'           => $service['id'] . $service['type'],
