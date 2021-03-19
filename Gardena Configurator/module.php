@@ -9,7 +9,8 @@ class GardenaConfigurator extends IPSModule
         'COMMON'             => '{FD9A4547-26FE-A75F-B636-839CAB25EACA}',
         'SENSOR'             => '{22726FE1-1B92-292B-F544-C293D23DF937}',
         'VALVE'              => '{68FFB073-8C93-C74C-B3CB-02778AEDE152}',
-        'VALVE_SET'          => '{F90A415A-0C56-66E6-F37B-4C2E6DB36742}'
+        'VALVE_SET'          => '{F90A415A-0C56-66E6-F37B-4C2E6DB36742}',
+        'MOWER'              => '{5E7255D9-6A2E-F10B-9430-360F00A66963}'
     ];
 
     public function Create()
@@ -65,7 +66,7 @@ class GardenaConfigurator extends IPSModule
                             case 'DEVICE':
                                 foreach ($device['relationships']['services']['data'] as $service) {
                                     $moduleGUID = $this->getGuidForType($service['type']);
-                                    $deviceName = $this->getServiceName($service['id'], $allDevices);
+                                    $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
                                     if ($service['type'] == 'COMMON') {
                                         $deviceName = $this->Translate('Device Information');
                                     }
@@ -145,7 +146,14 @@ class GardenaConfigurator extends IPSModule
                 return $device['attributes']['name']['value'];
             }
         }
-        return 'unknown';
+        //If we get no name with a suffix try without
+        $seperator = strpos($id, ':');
+        //If a suffix is present remove it
+        if ($seperator) {
+            $id = substr($id, 0, $seperator);
+            return $this->getCommonDeviceName($id, $devices);
+        }
+        return $id;
     }
 
     private function getInstanceIDForGuid($id, $guid)

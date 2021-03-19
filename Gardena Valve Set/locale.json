@@ -2,7 +2,12 @@
     "translations": {
         "de": {
             "State": "Status",
-            "Last Error": "Fehlercode"
+            "ok": "Ok",
+            "warning": "Warnung",
+            "unavailable": "Nicht erreichbar",
+            "Last Error": "Fehlercode",
+            "no message": "Keine Nachricht",
+            "off": "Aus"
         }
     }
 }

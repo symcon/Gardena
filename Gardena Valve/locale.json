@@ -2,9 +2,16 @@
     "translations": {
         "de": {
             "Activity": "Aktivität",
+            "closed": "Geschlossen",
+            "manual watering": "Manuelle Bewässerung",
+            "scheduled watering": "Planmäßige Bewässerung",
             "State": "Status",
+            "ok": "Ok",
+            "warning": "Warnung",
+            "unavailable": "Nicht erreichbar",
             "Last Error": "Fehlercode",
-            "Link Level": "RF Link Level"
+            "no message": "Keine Nachricht",
+            "off": "Aus"
         }
     }
 }

@@ -1,14 +1,15 @@
 {
     "translations": {
       "de": {
-        "Ok": "Ok",
-        "Unavailable": "Nicht erreichbar",
-        "Open": "Offen",
-        "Closed": "Geschlossen",
-        "Online": "Online",
-        "Offline": "Offline",
-        "No Message": "Keine Mitteilungen",
-        "No Battery": "Keine Batterie"
+        "ok": "Ok",
+        "warning": "Warnung",
+        "unavailable": "Nicht erreichbar",
+        "error": "Fehler",
+        "closed": "Geschlossen",
+        "manual watering": "Manuelle Bewässerung",
+        "scheduled watering": "Planmäßige Bewässerung",
+        "no message": "Keine Nachricht",
+        "off": "Aus"
       }
     }
   }

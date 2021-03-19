@@ -3,8 +3,17 @@
         "de": {
             "Battery Level": "Batterie Ladung",
             "Battery State": "Batterie Status",
+            "ok": "Ok",
+            "low": "Niedrig",
+            "replace now": "Jetzt ersetzen",
+            "out of operation": "Außer Betrieb",
+            "charging": "Lädt",
+            "no battery": "Keine Batterie",
             "Link Level": "RF Link Level",
-            "Link State": "RF Link Status"
+            "Link State": "RF Link Status",
+            "online": "Online",
+            "offline": "Offline",
+            "unknown": "Unbekannt"
         }
     }
 }

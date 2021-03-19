@@ -17,33 +17,21 @@ class GardenaDevice extends IPSModule
         $this->RegisterPropertyString('ID', '');
 
         //Profiles
-        if (!IPS_VariableProfileExists('Gardena.ReachableStatus')) {
-            IPS_CreateVariableProfile('Gardena.ReachableStatus', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.ReachableStatus', 'ONLINE', $this->Translate('Online'), '', 0x00ff00);
-            IPS_SetVariableProfileAssociation('Gardena.ReachableStatus', 'OFFLINE', $this->Translate('Offline'), '', 0xff0000);
-        }
 
-        if (!IPS_VariableProfileExists('Gardena.Valve.Activity')) {
-            IPS_CreateVariableProfile('Gardena.Valve.Activity', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.Valve.Activity', 'OPEN', $this->Translate('Open'), '', -1);
-            IPS_SetVariableProfileAssociation('Gardena.Valve.Activity', 'CLOSED', $this->Translate('Closed'), '', -1);
-        }
-
+        //Info about values from https://mips2648.github.io/jeedom-plugins-docs/gardena/en_US/
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('Ok'), '', 0x00ff00);
-            IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('Unavailable'), '', 0xff0000);
+            IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('ok'), '', 0x00ff00);
+            IPS_SetVariableProfileAssociation('Gardena.State', 'WARNING', $this->Translate('warning'), '', 0xffff00);
+            IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('unavailable'), '', 0xff0000);
+            IPS_SetVariableProfileAssociation('Gardena.State', 'ERROR', $this->Translate('error'), '', 0xff0000);
         }
 
+        //Might be different for each device
         if (!IPS_VariableProfileExists('Gardena.Error')) {
             IPS_CreateVariableProfile('Gardena.Error', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.Error', 'NO_MESSAGE', $this->Translate('No Message'), '', 0x00ff00);
-        }
-
-        if (!IPS_VariableProfileExists('Gardena.Battery')) {
-            IPS_CreateVariableProfile('Gardena.Battery', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.Battery', 'OK', $this->Translate('Ok'), '', 0x00ff00);
-            IPS_SetVariableProfileAssociation('Gardena.Battery', 'NO_BATTERY', $this->Translate('No Battery'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.Error', 'NO_MESSAGE', $this->Translate('no message'), '', 0x00ff00);
+            IPS_SetVariableProfileAssociation('Gardena.Error', 'OFF_DISABLED', $this->Translate('off'), '', -1);
         }
     }
 
@@ -96,6 +84,7 @@ class GardenaDevice extends IPSModule
                 $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], 0, true);
                 $this->SetValue($attribute, $value['value']);
             } elseif (!in_array($attribute, $this->exclude)) {
+                // $variableType = VARIABLETYPE_STRING;
                 switch (gettype($value['value'])) {
                             case 'double':
                             case 'integer':
