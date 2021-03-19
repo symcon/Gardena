@@ -1,0 +1,14 @@
+{
+    "id": "{5E7255D9-6A2E-F10B-9430-360F00A66963}",
+    "name": "Gardena Mower",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": ["{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+    "childRequirements": [],
+    "implemented": [
+        "{56245A2E-9937-C486-B7C0-DC30275EEDF6}"
+    ],
+    "prefix": "GARDENA",
+    "url": "https://symcon.de"
+}

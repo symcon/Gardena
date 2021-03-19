@@ -1,0 +1,26 @@
+{
+    "translations": {
+        "de": {
+            "Activity": "Aktivität",
+            "none": "Keine",
+            "paused": "Pausiert",
+            "cutting": "Mähen",
+            "manual cutting": "Manuelles Mähen",
+            "searching charging station": "Suche Ladestation",
+            "leaving": "Mähen",
+            "parked on schedule": "Geparkt nach Zeitplan",
+            "parked": "Geparkt",
+            "parked through SensorControl": "Geparkt durch SensorControl",
+            "State": "Status",
+            "ok": "Ok",
+            "warning": "Warnung",
+            "unavailable": "Nicht erreichbar",
+            "error": "Fehler",
+            "Last Error": "Fehlercode",
+            "no message": "Keine Nachricht",
+            "off": "Aus",
+            "Operating Hours": "Betriebsstunden",
+            " Hours": " Stunden"
+        }
+    }
+}
