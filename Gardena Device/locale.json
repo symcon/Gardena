@@ -1,15 +1,6 @@
 {
     "translations": {
       "de": {
-        "ok": "Ok",
-        "warning": "Warnung",
-        "unavailable": "Nicht erreichbar",
-        "error": "Fehler",
-        "closed": "Geschlossen",
-        "manual watering": "Manuelle Bewässerung",
-        "scheduled watering": "Planmäßige Bewässerung",
-        "no message": "Keine Nachricht",
-        "off": "Aus"
       }
     }
   }
