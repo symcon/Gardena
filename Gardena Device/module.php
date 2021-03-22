@@ -17,7 +17,6 @@ class GardenaDevice extends IPSModule
 
         //Properties
         $this->RegisterPropertyString('ID', '');
-        
     }
 
     public function Destroy()
@@ -59,7 +58,7 @@ class GardenaDevice extends IPSModule
                 'type'       => $this->control,
                 'attributes' => [
                     'command' => $Command,
-                    'seconds' => 120    
+                    'seconds' => $Seconds
                 ]
             ]
         ]);

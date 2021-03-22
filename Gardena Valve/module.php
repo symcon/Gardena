@@ -30,9 +30,10 @@ class GardenaValve extends GardenaDevice
     protected $type = 'VALVE';
     protected $control = 'VALVE_CONTROL';
     protected $commands = ['START_SECONDS_TO_OVERRIDE', 'STOP_UNTIL_NEXT_TASK', 'PAUSE', 'UNPAUSE'];
-    public function Create() {
+    public function Create()
+    {
         parent::Create();
-        
+
         //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
@@ -41,7 +42,7 @@ class GardenaValve extends GardenaDevice
             IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('unavailable'), '', 0xff0000);
             IPS_SetVariableProfileAssociation('Gardena.State', 'ERROR', $this->Translate('error'), '', 0xff0000);
         }
-        
+
         //VALVE
         if (!IPS_VariableProfileExists('Gardena.Valve.Activity')) {
             IPS_CreateVariableProfile('Gardena.Valve.Activity', VARIABLETYPE_STRING);

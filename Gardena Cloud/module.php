@@ -302,7 +302,7 @@ declare(strict_types=1);
             $opts = [
                 'http'=> [
                     'method' => 'PUT',
-                    'header' => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n" . 
+                    'header' => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n" .
                                 'Content-Length: ' . strlen($content) . "\r\n" .
                                 'Content-Type: application/vnd.api+json' . "\r\n",
                     'content'       => $content,
