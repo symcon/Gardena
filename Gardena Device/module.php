@@ -6,6 +6,8 @@ class GardenaDevice extends IPSModule
     protected $metadata = [];
     protected $exclude = [];
     protected $type = '';
+    protected $control = '';
+    protected $commands = [];
 
     public function Create()
     {
@@ -15,6 +17,7 @@ class GardenaDevice extends IPSModule
 
         //Properties
         $this->RegisterPropertyString('ID', '');
+        
     }
 
     public function Destroy()
@@ -45,6 +48,23 @@ class GardenaDevice extends IPSModule
         $data = json_decode($JSONString, true);
         //Decoding websocket event
         $this->processData(json_decode($data['Buffer'], true));
+    }
+
+    public function ControlService($ID, $Command, $Seconds)
+    {
+        $endpoint = 'command/' . $this->ReadPropertyString('ID');
+        $payload = json_encode([
+            'data' => [
+                'id'         => 'request-4',
+                'type'       => $this->control,
+                'attributes' => [
+                    'command' => $Command,
+                    'seconds' => 120    
+                ]
+            ]
+        ]);
+
+        $this->requestCommandFromParent($endpoint, $payload);
     }
 
     private function processData($data)

@@ -5,9 +5,13 @@
             "ok": "Ok",
             "warning": "Warnung",
             "unavailable": "Nicht erreichbar",
+            "error": "Fehler",
             "Last Error": "Fehlercode",
-            "no message": "Keine Nachricht",
-            "off": "Aus"
+            "no message": "Kein Fehler",
+            "voltage drop detected": "Spannungsabfall erkannt",
+            "wrong power supply": "Falsche Stromversorgung",
+            "no MCU connected": "Keine MCU verbunden",
+            "unknown": "Unbekannt"
         }
     }
 }

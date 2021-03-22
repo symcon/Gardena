@@ -1,17 +1,29 @@
 {
     "translations": {
         "de": {
-            "Activity": "Aktivität",
-            "closed": "Geschlossen",
-            "manual watering": "Manuelle Bewässerung",
-            "scheduled watering": "Planmäßige Bewässerung",
             "State": "Status",
             "ok": "Ok",
             "warning": "Warnung",
-            "unavailable": "Nicht erreichbar",
+            "unavailable": "Nicht verbunden",
+            "error": "Fehler",
+            "Activity": "Aktivität",
+            "closed": "Geschlossen",
+            "manual watering": "Manuelle Bewässerung",
+            "scheduled watering": "Bewässerung nach Zeitplan",
             "Last Error": "Fehlercode",
-            "no message": "Keine Nachricht",
-            "off": "Aus"
+            "no message": "Keine Fehler",
+            "limit of 2 open valves reached": "Begrenzung von 2 offenen Ventilen erreicht",
+            "not connected": "Nicht verbunden",
+            "max current exceeded": "Maximalstrom überschritten",
+            "watering canceled": "Bewässerung abgebrochen",
+            "master valve not connected": "Master Ventil nicht verbunden",
+            "valve damaged": "Ventil beschädigt",
+            "frost prevents starting": "Frost verhindert Start",
+            "low battery prevents starting" :"Schwache Batterie verhindert Start",
+            "valve power supply failed": "Stromversorgung des Ventils ausgefallen",
+            "unknown": "Unbekannt",
+            "Duration": "Dauer",
+            " Seconds": " Sekunden"
         }
     }
 }

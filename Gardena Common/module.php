@@ -33,7 +33,7 @@ class GardenaCommon extends GardenaDevice
     {
         parent::Create();
 
-        //Info about values from https://mips2648.github.io/jeedom-plugins-docs/gardena/en_US/
+        //COMMON
         if (!IPS_VariableProfileExists('Gardena.Battery')) {
             IPS_CreateVariableProfile('Gardena.Battery', VARIABLETYPE_STRING);
             IPS_SetVariableProfileAssociation('Gardena.Battery', 'OK', $this->Translate('ok'), '', 0x00ff00);

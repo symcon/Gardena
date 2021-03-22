@@ -292,4 +292,33 @@ declare(strict_types=1);
 
             return $result;
         }
+
+        private function putData($endpoint, $content)
+        {
+            $this->SendDebug('content', $content, 0);
+            $this->SendDebug('url', self::SMART_SYSTEM_BASE_URL . $endpoint, 0);
+            $this->SendDebug('token', $this->FetchAccessToken(), 0);
+
+            $opts = [
+                'http'=> [
+                    'method' => 'PUT',
+                    'header' => 'Authorization: Bearer ' . $this->FetchAccessToken() . "\r\n" . 
+                                'Content-Length: ' . strlen($content) . "\r\n" .
+                                'Content-Type: application/vnd.api+json' . "\r\n",
+                    'content'       => $content,
+                    'ignore_errors' => true
+                ]
+            ];
+            $context = stream_context_create($opts);
+
+            $result = file_get_contents(self::SMART_SYSTEM_BASE_URL . $endpoint, false, $context);
+            $this->SendDebug('header', $http_response_header[0], 0);
+
+            if ((strpos($http_response_header[0], '202') === false)) {
+                echo $http_response_header[0] . PHP_EOL . $result;
+                return false;
+            }
+
+            return $result;
+        }
     }

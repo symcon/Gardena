@@ -13,17 +13,18 @@ class GardenaValveSet extends GardenaDevice
         'lastErrorCode' => [
             'displayName'  => 'Last Error',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.Error'
+            'profile'      => 'Gardena.ValveSet.Error'
         ],
     ];
     protected $exclude = ['name', 'serial', 'modelType'];
     protected $type = 'VALVE_SET';
+    protected $control = 'VALVE_SET_CONTROL';
+    protected $commands = ['STOP_UNTIL_NEXT_TASK'];
 
-    public function Create()
-    {
+    public function Create() {
         parent::Create();
-
-        //Info about values from https://mips2648.github.io/jeedom-plugins-docs/gardena/en_US/
+        
+        //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
             IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('ok'), '', 0x00ff00);
@@ -32,11 +33,14 @@ class GardenaValveSet extends GardenaDevice
             IPS_SetVariableProfileAssociation('Gardena.State', 'ERROR', $this->Translate('error'), '', 0xff0000);
         }
 
-        //Might be different for each device
-        if (!IPS_VariableProfileExists('Gardena.Error')) {
-            IPS_CreateVariableProfile('Gardena.Error', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileAssociation('Gardena.Error', 'NO_MESSAGE', $this->Translate('no message'), '', 0x00ff00);
-            IPS_SetVariableProfileAssociation('Gardena.Error', 'OFF_DISABLED', $this->Translate('off'), '', -1);
+        //VALVE_SET
+        if (!IPS_VariableProfileExists('Gardena.ValveSet.Error')) {
+            IPS_CreateVariableProfile('Gardena.ValveSet.Error', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'NO_MESSAGE', $this->Translate('no message'), '', 0x00ff00);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'VOLTAGE_DROP', $this->Translate('voltage drop detected'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'WRONG_POWER_SUPPLY', $this->Translate('wrong power supply'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'NO_MCU_CONNECTION', $this->Translate('no MCU connected'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'UNKNOWN', $this->Translate('unknown'), '', -1);
         }
     }
 }
