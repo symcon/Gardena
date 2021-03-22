@@ -49,7 +49,7 @@ class GardenaDevice extends IPSModule
         $this->processData(json_decode($data['Buffer'], true));
     }
 
-    public function ControlService($ID, $Command, $Seconds)
+    public function ControlService(string $ID, string $Command, int $Seconds = 0)
     {
         $endpoint = 'command/' . $this->ReadPropertyString('ID');
         $payload = json_encode([
