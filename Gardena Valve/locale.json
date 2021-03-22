@@ -23,7 +23,15 @@
             "valve power supply failed": "Stromversorgung des Ventils ausgefallen",
             "unknown": "Unbekannt",
             "Duration": "Dauer",
-            " Seconds": " Sekunden"
+            " Seconds": " Sekunden",
+            "open": "Öffnen",
+            "close": "Schließen",
+            " Minutes": " Minuten",
+            "Schedule": "Zeitplan",
+            "activate": "Aktivieren",
+            "deactivate": "Deaktivieren",
+            "Valve": "Ventil",
+            "Valve Duration": "Ventil Dauer"
         }
     }
 }

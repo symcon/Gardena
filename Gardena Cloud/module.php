@@ -63,8 +63,13 @@ declare(strict_types=1);
 
         public function ForwardData($Data)
         {
-            $endpoint = json_decode($Data, true)['Endpoint'];
-            $result = $this->GetData($endpoint);
+            $data = json_decode($Data, true);
+            $endpoint = $data['Endpoint'];
+            if (isset($data['Payload'])) {
+                $result = $this->putData($endpoint, $data['Payload']);
+            } else {
+                $result = $this->getData($endpoint);
+            }
             $this->SendDebug($endpoint, $result, 0);
             return $result;
         }
@@ -98,7 +103,7 @@ declare(strict_types=1);
             if ($this->GetStatus() != IS_ACTIVE) {
                 return;
             }
-            $locationID = json_decode($this->GetData('locations'), true)['data'][0]['id'];
+            $locationID = json_decode($this->getData('locations'), true)['data'][0]['id'];
             $payload = json_encode(
                 [
                     'data' => [
@@ -111,7 +116,7 @@ declare(strict_types=1);
                 ]
             );
 
-            $response = json_decode($this->PostData('websocket', $payload), true);
+            $response = json_decode($this->postData('websocket', $payload), true);
             $url = $response['data']['attributes']['url'];
             $this->SendDebug('websocket', $url, 0);
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
@@ -248,7 +253,7 @@ declare(strict_types=1);
             return $Token;
         }
 
-        private function GetData($endpoint)
+        private function getData($endpoint)
         {
             $opts = [
                 'http'=> [
@@ -269,7 +274,7 @@ declare(strict_types=1);
             return $result;
         }
 
-        private function PostData($endpoint, $content)
+        private function postData($endpoint, $content)
         {
             $opts = [
                 'http'=> [

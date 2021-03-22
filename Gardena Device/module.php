@@ -52,18 +52,20 @@ class GardenaDevice extends IPSModule
     public function ControlService(string $ID, string $Command, int $Seconds = 0)
     {
         $endpoint = 'command/' . $this->ReadPropertyString('ID');
-        $payload = json_encode([
+        $payload = [
             'data' => [
                 'id'         => 'request-4',
                 'type'       => $this->control,
                 'attributes' => [
-                    'command' => $Command,
-                    'seconds' => $Seconds
+                    'command' => $Command
                 ]
             ]
-        ]);
+        ];
+        if ($Seconds) {
+            $payload['data']['attributes']['seconds'] = $Seconds;
+        }
 
-        $this->requestCommandFromParent($endpoint, $payload);
+        $this->requestCommandFromParent($endpoint, json_encode($payload));
     }
 
     private function processData($data)
@@ -106,6 +108,15 @@ class GardenaDevice extends IPSModule
     {
         return json_decode($this->SendDataToParent(json_encode([
             'DataID'      => '{793F0A25-9FFE-DC27-25D6-8A574EE74C39}',
+            'Endpoint'    => $endpoint
+        ])), true);
+    }
+
+    private function requestCommandFromParent($endpoint, $payload)
+    {
+        return json_decode($this->SendDataToParent(json_encode([
+            'DataID'      => '{793F0A25-9FFE-DC27-25D6-8A574EE74C39}',
+            'Payload'     => $payload,
             'Endpoint'    => $endpoint
         ])), true);
     }

@@ -45,4 +45,9 @@ class GardenaValidationTest extends TestCaseSymconValidation
     {
         $this->validateModule(__DIR__ . '/../Gardena Valve Set');
     }
+
+    public function testValidateGardenaMower(): void
+    {
+        $this->validateModule(__DIR__ . '/../Gardena Mower');
+    }
 }
