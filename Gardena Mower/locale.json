@@ -18,7 +18,7 @@
             "parked": "Geparkt",
             "parked through SensorControl": "Geparkt durch SensorControl",
             "Last Error": "Fehlercode",
-            "no message": "Keine Fehler",
+            "no message": "Kein Fehler",
             "outside working area": "Außerhalb des Arbeitsbereichs",
             "no loop signal": "Kein Begrenzungssignal",
             "wrong loop signal": "Falsches Begrenzungssignal",

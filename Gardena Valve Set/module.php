@@ -21,9 +21,10 @@ class GardenaValveSet extends GardenaDevice
     protected $control = 'VALVE_SET_CONTROL';
     protected $commands = ['STOP_UNTIL_NEXT_TASK'];
 
-    public function Create() {
+    public function Create()
+    {
         parent::Create();
-        
+
         //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
@@ -42,5 +43,33 @@ class GardenaValveSet extends GardenaDevice
             IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'NO_MCU_CONNECTION', $this->Translate('no MCU connected'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.ValveSet.Error', 'UNKNOWN', $this->Translate('unknown'), '', -1);
         }
+
+        if (!IPS_VariableProfileExists('Gardena.ValveSet.Commands')) {
+            IPS_CreateVariableProfile('Gardena.ValveSet.Commands', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileAssociation('Gardena.ValveSet.Commands', 'STOP_UNTIL_NEXT_TASK', $this->Translate('close all valves'), '', -1);
+        }
+
+        $this->RegisterVariableString('ValveSetControl', $this->Translate('Action'), 'Gardena.ValveSet.Commands', 0);
+        $this->SetValue('ValveSetControl', 'STOP_UNTIL_NEXT_TASK');
+        $this->EnableAction('ValveSetControl');
+    }
+
+    public function RequestAction($Ident, $Value)
+    {
+        switch ($Ident) {
+            case 'ValveSetControl':
+                $this->CloseAllValves();
+                break;
+
+            default:
+                throw new Exception(sprintf('Invalid Ident: %s'), $Ident);
+        }
+
+        $this->SetValue($Ident, $Value);
+    }
+
+    public function CloseAllValves()
+    {
+        $this->ControlService($this->ReadPropertyString('ID'), 'STOP_UNTIL_NEXT_TASK');
     }
 }

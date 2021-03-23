@@ -11,7 +11,7 @@
             "manual watering": "Manuelle Bewässerung",
             "scheduled watering": "Bewässerung nach Zeitplan",
             "Last Error": "Fehlercode",
-            "no message": "Keine Fehler",
+            "no message": "Kein Fehler",
             "limit of 2 open valves reached": "Begrenzung von 2 offenen Ventilen erreicht",
             "not connected": "Nicht verbunden",
             "max current exceeded": "Maximalstrom überschritten",
@@ -22,16 +22,18 @@
             "low battery prevents starting" :"Schwache Batterie verhindert Start",
             "valve power supply failed": "Stromversorgung des Ventils ausgefallen",
             "unknown": "Unbekannt",
-            "Duration": "Dauer",
-            " Seconds": " Sekunden",
+            "Remaining": "Verbleibend",
+            "%d seconds": "%d Sekunden",
+            "Seconds": "Sekunden",
             "open": "Öffnen",
             "close": "Schließen",
             " Minutes": " Minuten",
             "Schedule": "Zeitplan",
             "activate": "Aktivieren",
             "deactivate": "Deaktivieren",
-            "Valve": "Ventil",
-            "Valve Duration": "Ventil Dauer"
+            "Action": "Aktion",
+            "Open Duration": "Öffnungsdauer",
+            "Update Inerval": "Aktualisierungsintervall"
         }
     }
 }

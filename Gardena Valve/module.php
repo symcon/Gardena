@@ -8,22 +8,26 @@ class GardenaValve extends GardenaDevice
         'state' => [
             'displayName'  => 'State',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.State'
+            'profile'      => 'Gardena.State',
+            'position'     => 30
         ],
         'activity' => [
             'displayName'  => 'Activity',
             'variableType' => VARIABLETYPE_STRING,
             'profile'      => 'Gardena.Valve.Activity',
+            'position'     => 0
         ],
         'lastErrorCode' => [
             'displayName'  => 'Last Error',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.Valve.Error'
+            'profile'      => 'Gardena.Valve.Error',
+            'position'     => 20
         ],
         'duration' => [
-            'displayName'  => 'Duration',
+            'displayName'  => 'Remaining',
             'variableType' => VARIABLETYPE_INTEGER,
-            'profile'      => 'Gardena.Seconds'
+            'profile'      => 'Gardena.Seconds',
+            'position'     => 10
         ]
     ];
     protected $exclude = ['name', 'serial', 'modelType'];
@@ -70,7 +74,8 @@ class GardenaValve extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Seconds')) {
             IPS_CreateVariableProfile('Gardena.Seconds', VARIABLETYPE_INTEGER);
-            IPS_SetVariableProfileText('Gardena.Seconds', '', $this->Translate(' Seconds'));
+            IPS_SetVariableProfileAssociation('Gardena.Seconds', 0, '%d', '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.Seconds', 1, $this->Translate('%d seconds'), '', -1);
         }
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Commands')) {
@@ -82,7 +87,7 @@ class GardenaValve extends GardenaDevice
         if (!IPS_VariableProfileExists('Gardena.Command.Minutes')) {
             IPS_CreateVariableProfile('Gardena.Command.Minutes', VARIABLETYPE_INTEGER);
             IPS_SetVariableProfileText('Gardena.Command.Minutes', '', $this->Translate(' Minutes'));
-            IPS_SetVariableProfileValues('Gardena.Command.Minutes', 0, 360, 1);
+            IPS_SetVariableProfileValues('Gardena.Command.Minutes', 1, 360, 1);
         }
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Commands.Schedule')) {
@@ -91,14 +96,17 @@ class GardenaValve extends GardenaDevice
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'UNPAUSE', $this->Translate('deactivate'), '', -1);
         }
 
-        $this->RegisterVariableString('ValveControl', $this->Translate('Valve'), 'Gardena.Valve.Commands', 0);
+        //Open close commands
+        $this->RegisterVariableString('ValveControl', $this->Translate('Action'), 'Gardena.Valve.Commands', 50);
         $this->SetValue('ValveControl', 'STOP_UNTIL_NEXT_TASK');
         $this->EnableAction('ValveControl');
-        $this->RegisterVariableInteger('ValveDuration', $this->Translate('Valve Duration'), 'Gardena.Command.Minutes', 0);
+        $this->RegisterVariableInteger('ValveDuration', $this->Translate('Open Duration'), 'Gardena.Command.Minutes', 40);
+        $this->SetValue('ValveDuration', 5);
         $this->EnableAction('ValveDuration');
 
-        $this->RegisterVariableString('ScheduleControl', $this->Translate('Schedule'), 'Gardena.Valve.Commands.Schedule', 0);
-        $this->SetValue('ScheduleControl', 'UNPAUSED');
+        //Schedule commands
+        $this->RegisterVariableString('ScheduleControl', $this->Translate('Schedule'), 'Gardena.Valve.Commands.Schedule', 70);
+        $this->SetValue('ScheduleControl', 'UNPAUSE');
         $this->EnableAction('ScheduleControl');
     }
 
@@ -106,17 +114,80 @@ class GardenaValve extends GardenaDevice
     {
         switch ($Ident) {
             case 'ValveControl':
-                $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $this->GetValue('ValveDuration'));
+                switch ($Value) {
+                    case 'START_SECONDS_TO_OVERRIDE':
+                        $this->OpenValve($this->GetValue('ValveDuration'));
+                        break;
+
+                    case 'STOP_UNTIL_NEXT_TASK':
+                        $this->CloseValve();
+                        break;
+
+                    default:
+                        throw new Exception(sprintf('Invalid Command: %s'), $Value);
+                }
                 break;
 
-                case 'ScheduleControl':
-                    $this->ControlService($this->ReadPropertyString('ID'), $Value, 0);
-                    break;
+            case 'ScheduleControl':
+                switch ($Value) {
+                    case 'PAUSE':
+                        $this->DeactivateSchedule();
+                        break;
+
+                    case 'UNPAUSE':
+                        $this->ActivateSchedule();
+                        break;
+
+                    default:
+                        throw new Exception(sprintf('Invalid Command: %s'), $Value);
+
+                }
+                break;
 
             default:
-                break;
+                throw new Exception(sprintf('Invalid Ident: %s'), $Ident);
+
         }
 
         $this->SetValue($Ident, $Value);
+    }
+
+    public function OpenValve(int $Minutes)
+    {
+        $this->ControlService($this->ReadPropertyString('ID'), 'START_SECONDS_TO_OVERRIDE', 60 * $Minutes);
+    }
+
+    public function CloseValve()
+    {
+        $this->ControlService($this->ReadPropertyString('ID'), 'STOP_UNTIL_NEXT_TASK');
+    }
+
+    public function ActivateSchedule()
+    {
+        $this->ControlService($this->ReadPropertyString('ID'), 'UNPAUSE');
+    }
+
+    public function DeactivateSchedule()
+    {
+        $this->ControlService($this->ReadPropertyString('ID'), 'PAUSE');
+    }
+
+    protected function processData($data)
+    {
+        parent::processData($data);
+        //Only process data meant for this intance
+        if ($data['type'] != $this->type) {
+            return;
+        }
+        //Only process data meant matching our id
+        if ($data['id'] != $this->ReadPropertyString('ID')) {
+            return;
+        }
+
+        $attributes = $data['attributes'];
+        if (!isset($attributes['duration']) && @IPS_GetObjectIDByIdent('duration', $this->InstanceID)) {
+            $this->SetTimerInterval('UpdateDuration', 0);
+            $this->SetValue('duration', 0);
+        }
     }
 }

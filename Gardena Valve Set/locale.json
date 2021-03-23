@@ -11,7 +11,9 @@
             "voltage drop detected": "Spannungsabfall erkannt",
             "wrong power supply": "Falsche Stromversorgung",
             "no MCU connected": "Keine MCU verbunden",
-            "unknown": "Unbekannt"
+            "unknown": "Unbekannt",
+            "Action": "Aktion",
+            "close all valves": "Alle Ventile schließen"
         }
     }
 }

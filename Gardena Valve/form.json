@@ -4,6 +4,12 @@
             "type": "ValidationTextBox",
             "caption": "Device ID",
             "name": "ID"
+        },
+        {
+            "type": "NumberSpinner",
+            "caption": "Update Interval",
+            "name": "UpdateInterval",
+            "suffix": "Seconds"
         }
     ],
     "actions": [],

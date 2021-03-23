@@ -17,6 +17,10 @@ class GardenaDevice extends IPSModule
 
         //Properties
         $this->RegisterPropertyString('ID', '');
+        $this->RegisterPropertyInteger('UpdateInterval', 5);
+
+        //Timer
+        $this->RegisterTimer('UpdateDuration', 0, 'GARDENA_UpdateDuration($_IPS[\'TARGET\']);');
     }
 
     public function Destroy()
@@ -68,7 +72,15 @@ class GardenaDevice extends IPSModule
         $this->requestCommandFromParent($endpoint, json_encode($payload));
     }
 
-    private function processData($data)
+    public function UpdateDuration()
+    {
+        $value = $this->GetValue('duration');
+        $updateInterval = $this->ReadPropertyInteger('UpdateInterval');
+        $this->SetTimerInterval('UpdateDuration', $updateInterval * 1000);
+        $this->SetValue('duration', $value - $updateInterval);
+    }
+
+    protected function processData($data)
     {
         //Only process data meant for this intance
         if ($data['type'] != $this->type) {
@@ -83,11 +95,18 @@ class GardenaDevice extends IPSModule
 
         foreach ($data['attributes'] as $attribute => $value) {
             if (isset($this->metadata[$attribute])) {
+                //If duration is transmitted start the timer
+                if ($attribute == 'duration') {
+                    $currentInterval = $this->GetTimerInterval('UpdateDuration');
+                    if (!$currentInterval) {
+                        $this->SetTimerInterval('UpdateDuration', $this->ReadPropertyInteger('UpdateInterval') * 1000);
+                    }
+                }
                 $meta = $this->metadata[$attribute];
-                $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], 0, true);
+                $position = isset($meta['position']) ? $meta['position'] : 0;
+                $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], $position, true);
                 $this->SetValue($attribute, $value['value']);
             } elseif (!in_array($attribute, $this->exclude)) {
-                // $variableType = VARIABLETYPE_STRING;
                 switch (gettype($value['value'])) {
                             case 'double':
                             case 'integer':
