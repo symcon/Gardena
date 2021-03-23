@@ -2,9 +2,9 @@
     "translations": {
         "de": {
             "State": "Status",
-            "ok": "Ok",
+            "ok": "OK",
             "warning": "Warnung",
-            "unavailable": "Nicht erreichbar",
+            "unavailable": "Nicht verbunden",
             "error": "Fehler",
             "Last Error": "Fehlercode",
             "no message": "Kein Fehler",

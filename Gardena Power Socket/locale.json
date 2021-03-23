@@ -2,7 +2,7 @@
     "translations": {
         "de": {
             "State": "Status",
-            "ok": "Ok",
+            "ok": "OK",
             "warning": "Warnung",
             "unavailable": "Nicht verbunden",
             "error": "Fehler",
