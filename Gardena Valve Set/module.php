@@ -61,7 +61,7 @@ class GardenaValveSet extends GardenaDevice
     {
         switch ($Ident) {
             case 'ValveSetControl':
-                $this->CloseAllValves();
+                $this->ControlService($this->ReadPropertyString('ID'), 'STOP_UNTIL_NEXT_TASK');
                 break;
 
             default:
@@ -69,10 +69,5 @@ class GardenaValveSet extends GardenaDevice
         }
 
         $this->SetValue($Ident, $Value);
-    }
-
-    public function CloseAllValves()
-    {
-        $this->ControlService($this->ReadPropertyString('ID'), 'STOP_UNTIL_NEXT_TASK');
     }
 }

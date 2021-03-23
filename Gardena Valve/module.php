@@ -76,7 +76,7 @@ class GardenaValve extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Seconds')) {
             IPS_CreateVariableProfile('Gardena.Seconds', VARIABLETYPE_INTEGER);
-            IPS_SetVariableProfileIcon('Gardena.Seconds', 'Power');
+            IPS_SetVariableProfileIcon('Gardena.Seconds', 'Clock');
             IPS_SetVariableProfileAssociation('Gardena.Seconds', 0, '%d', '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Seconds', 1, $this->Translate('%d seconds'), '', -1);
         }
@@ -95,12 +95,13 @@ class GardenaValve extends GardenaDevice
             IPS_SetVariableProfileValues('Gardena.Command.Minutes', 1, 360, 1);
         }
 
-        if (!IPS_VariableProfileExists('Gardena.Valve.Commands.Schedule')) {
-            IPS_CreateVariableProfile('Gardena.Valve.Commands.Schedule', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileIcon('Gardena.Valve.Commands.Schedule', 'Calendar');
-            IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'PAUSE', $this->Translate('activate'), '', -1);
-            IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'UNPAUSE', $this->Translate('deactivate'), '', -1);
-        }
+        //We are currently not sure how the pausing works | no info in docs or app
+        // if (!IPS_VariableProfileExists('Gardena.Valve.Commands.Schedule')) {
+        //     IPS_CreateVariableProfile('Gardena.Valve.Commands.Schedule', VARIABLETYPE_STRING);
+        //     IPS_SetVariableProfileIcon('Gardena.Valve.Commands.Schedule', 'Calendar');
+        //     IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'PAUSE', $this->Translate('activate'), '', -1);
+        //     IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'UNPAUSE', $this->Translate('deactivate'), '', -1);
+        // }
 
         //Open close commands
         $this->RegisterVariableString('ValveControl', $this->Translate('Action'), 'Gardena.Valve.Commands', 50);
@@ -111,44 +112,21 @@ class GardenaValve extends GardenaDevice
         $this->EnableAction('ValveDuration');
 
         //Schedule commands
-        $this->RegisterVariableString('ScheduleControl', $this->Translate('Schedule'), 'Gardena.Valve.Commands.Schedule', 70);
-        $this->SetValue('ScheduleControl', 'UNPAUSE');
-        $this->EnableAction('ScheduleControl');
+        // $this->RegisterVariableString('ScheduleControl', $this->Translate('Schedule'), 'Gardena.Valve.Commands.Schedule', 70);
+        // $this->SetValue('ScheduleControl', 'UNPAUSE');
+        // $this->EnableAction('ScheduleControl');
     }
 
     public function RequestAction($Ident, $Value)
     {
         switch ($Ident) {
             case 'ValveControl':
-                switch ($Value) {
-                    case 'START_SECONDS_TO_OVERRIDE':
-                        $this->OpenValve($this->GetValue('ValveDuration'));
-                        break;
-
-                    case 'STOP_UNTIL_NEXT_TASK':
-                        $this->CloseValve();
-                        break;
-
-                    default:
-                        throw new Exception(sprintf('Invalid Command: %s'), $Value);
-                }
+                $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $Minutes);
                 break;
 
-            case 'ScheduleControl':
-                switch ($Value) {
-                    case 'PAUSE':
-                        $this->DeactivateSchedule();
-                        break;
-
-                    case 'UNPAUSE':
-                        $this->ActivateSchedule();
-                        break;
-
-                    default:
-                        throw new Exception(sprintf('Invalid Command: %s'), $Value);
-
-                }
-                break;
+            // case 'ScheduleControl':
+            //     $this->ControlService($this->ReadPropertyString('ID'), $Value);
+            //     break;
 
             default:
                 break;
@@ -156,26 +134,6 @@ class GardenaValve extends GardenaDevice
         }
 
         $this->SetValue($Ident, $Value);
-    }
-
-    public function OpenValve(int $Minutes)
-    {
-        $this->ControlService($this->ReadPropertyString('ID'), 'START_SECONDS_TO_OVERRIDE', 60 * $Minutes);
-    }
-
-    public function CloseValve()
-    {
-        $this->ControlService($this->ReadPropertyString('ID'), 'STOP_UNTIL_NEXT_TASK');
-    }
-
-    public function ActivateSchedule()
-    {
-        $this->ControlService($this->ReadPropertyString('ID'), 'UNPAUSE');
-    }
-
-    public function DeactivateSchedule()
-    {
-        $this->ControlService($this->ReadPropertyString('ID'), 'PAUSE');
     }
 
     protected function processData($data)

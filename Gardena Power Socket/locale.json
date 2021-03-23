@@ -15,7 +15,9 @@
             "action cancelled": "Aktion abgebrochen",
             "unknown": "Unbekannt",
             "Duration": "Dauer",
-            " Seconds": " Sekunden"
+            " Seconds": " Sekunden",
+            "on": "An",
+            "temporary on": "Vorübergehend an"
         }
     }
 }
