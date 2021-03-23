@@ -50,7 +50,7 @@ class GardenaConfigurator extends IPSModule
         $mainDevices = $location['data']['relationships']['devices']['data'];
         $allDevices = $location['included'];
         $locations = [[
-            'Name'         => $location['data']['attributes']['name'],
+            'Name'         => $this->Translate($location['data']['attributes']['name']),
             'SerialNumber' => '',
             'Type'         => '',
             'State'        => '',
@@ -102,7 +102,7 @@ class GardenaConfigurator extends IPSModule
                                             ],
                                             'name'     => $deviceName,
                                             'location' => [
-                                                $location['data']['attributes']['name'],
+                                                $this->Translate($location['data']['attributes']['name']),
                                                 $this->getCommonDeviceName($service['id'], $allDevices)
                                             ]
                                         ]

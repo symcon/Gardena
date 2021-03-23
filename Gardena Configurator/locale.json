@@ -11,7 +11,8 @@
             "ok": "OK",
             "warning": "Warnung",
             "unavailable": "Nicht verbunden",
-            "error": "Fehler"
+            "error": "Fehler",
+            "My Garden": "Mein Garten"
         }
     }
 }
