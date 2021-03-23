@@ -19,7 +19,6 @@ class GardenaValveSet extends GardenaDevice
     protected $exclude = ['name', 'serial', 'modelType'];
     protected $type = 'VALVE_SET';
     protected $control = 'VALVE_SET_CONTROL';
-    protected $commands = ['STOP_UNTIL_NEXT_TASK'];
 
     public function Create()
     {
@@ -47,8 +46,8 @@ class GardenaValveSet extends GardenaDevice
         }
 
         if (!IPS_VariableProfileExists('Gardena.ValveSet.Commands')) {
-            IPS_SetVariableProfileIcon('Gardena.ValveSet.Commands', 'Execute');
             IPS_CreateVariableProfile('Gardena.ValveSet.Commands', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.ValveSet.Commands', 'Execute');
             IPS_SetVariableProfileAssociation('Gardena.ValveSet.Commands', 'STOP_UNTIL_NEXT_TASK', $this->Translate('close all valves'), '', -1);
         }
 
