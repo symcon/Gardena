@@ -75,7 +75,15 @@
             "mower in waiting state, hatch closed": "Mäher im Wartezustand, Klappe geschlossen",
             "completed cutting, daily limit reached": "Mähen beendet, Tageslimit erreicht",
             "Operating Hours": "Betriebsstunden",
-            " Hours": " Stunden"
+            " Hours": " Stunden",
+            "Cutting": "Mähen",
+            "Parking": "Parken",
+            "Cutting Duration": "Mähdauer",
+            "manual": "Manuell",
+            "follow schedule": "Nach Zeitplan",
+            "until next task": "Bis nächste Aufgabe",
+            "ignore schedule": "Zeitplan ignorieren",
+            " Minutes": " Minuten"
         }
     }
 }

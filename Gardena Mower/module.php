@@ -40,22 +40,26 @@ class GardenaMower extends GardenaDevice
         'state' => [
             'displayName'  => 'State',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.State'
+            'profile'      => 'Gardena.State',
+            'position'     => 40
         ],
         'activity' => [
             'displayName'  => 'Activity',
             'variableType' => VARIABLETYPE_STRING,
             'profile'      => 'Gardena.Mower.Activity',
+            'position'     => 0
         ],
         'lastErrorCode' => [
             'displayName'  => 'Last Error',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.Mower.Error'
+            'profile'      => 'Gardena.Mower.Error',
+            'position'     => 30
         ],
         'operatingHours' => [
             'displayName'  => 'Operating Hours',
             'variableType' => VARIABLETYPE_INTEGER,
-            'profile'      => 'Gardena.Hours'
+            'profile'      => 'Gardena.Hours',
+            'position'     => 10
         ]
     ];
     protected $exclude = ['name', 'serial', 'modelType'];
@@ -135,5 +139,59 @@ class GardenaMower extends GardenaDevice
             IPS_SetVariableProfileIcon('Gardena.Hours', 'Clock');
             IPS_SetVariableProfileText('Gardena.Hours', '', $this->Translate(' Hours'));
         }
+
+        if (!IPS_VariableProfileExists('Gardena.Command.Minutes')) {
+            IPS_CreateVariableProfile('Gardena.Command.Minutes', VARIABLETYPE_INTEGER);
+            IPS_SetVariableProfileIcon('Gardena.Command.Minutes', 'Clock');
+            IPS_SetVariableProfileText('Gardena.Command.Minutes', '', $this->Translate(' Minutes'));
+            IPS_SetVariableProfileValues('Gardena.Command.Minutes', 1, 360, 1);
+        }
+
+        if (!IPS_VariableProfileExists('Gardena.Mower.Start.Commands')) {
+            IPS_CreateVariableProfile('Gardena.Mower.Start.Commands', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.Mower.Start.Commands', 'Execute');
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Start.Commands', 'START_SECONDS_TO_OVERRIDE', $this->Translate('manual'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Start.Commands', 'START_DONT_OVERRIDE', $this->Translate('follow schedule'), '', -1);
+        }
+
+        if (!IPS_VariableProfileExists('Gardena.Mower.Stop.Commands')) {
+            IPS_CreateVariableProfile('Gardena.Mower.Stop.Commands', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.Mower.Stop.Commands', 'Execute');
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Stop.Commands', 'PARK_UNTIL_NEXT_TASK', $this->Translate('until next task'), '', -1);
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Stop.Commands', 'PARK_UNTIL_FURTHER_NOTICE', $this->Translate('ignore schedule'), '', -1);
+        }
+
+        //Commands
+        //Start commands
+        $this->RegisterVariableString('MowerStart', $this->Translate('Cutting'), 'Gardena.Mower.Start.Commands', 60);
+        $this->SetValue('MowerStart', 'START_DONT_OVERRIDE');
+        $this->EnableAction('MowerStart');
+        $this->RegisterVariableInteger('MowerDuration', $this->Translate('Cutting Duration'), 'Gardena.Command.Minutes', 50);
+        $this->SetValue('MowerDuration', 5);
+        $this->EnableAction('MowerDuration');
+
+        //Stop commands
+        $this->RegisterVariableString('MowerStop', $this->Translate('Parking'), 'Gardena.Mower.Stop.Commands', 70);
+        $this->SetValue('MowerStop', 'PARK_UNTIL_NEXT_TASK');
+        $this->EnableAction('MowerStop');
+    }
+
+    public function RequestAction($Ident, $Value)
+    {
+        switch ($Ident) {
+            case 'MowerStart':
+                $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $this->GetValue('MowerDuration'));
+                break;
+
+            case 'MowerStop':
+                $this->ControlService($this->ReadPropertyString('ID'), $Value);
+                break;
+
+            default:
+                break;
+
+        }
+
+        $this->SetValue($Ident, $Value);
     }
 }

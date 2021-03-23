@@ -83,7 +83,7 @@ class GardenaValve extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Commands')) {
             IPS_CreateVariableProfile('Gardena.Valve.Commands', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileIcon('Gardena.Valve.Commands', 'Exceute');
+            IPS_SetVariableProfileIcon('Gardena.Valve.Commands', 'Execute');
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands', 'START_SECONDS_TO_OVERRIDE', $this->Translate('open'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands', 'STOP_UNTIL_NEXT_TASK', $this->Translate('close'), '', -1);
         }
