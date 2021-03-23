@@ -10,7 +10,8 @@ class GardenaConfigurator extends IPSModule
         'SENSOR'             => '{22726FE1-1B92-292B-F544-C293D23DF937}',
         'VALVE'              => '{68FFB073-8C93-C74C-B3CB-02778AEDE152}',
         'VALVE_SET'          => '{F90A415A-0C56-66E6-F37B-4C2E6DB36742}',
-        'MOWER'              => '{5E7255D9-6A2E-F10B-9430-360F00A66963}'
+        'MOWER'              => '{5E7255D9-6A2E-F10B-9430-360F00A66963}',
+        'POWER_SOCKET'       => '{82A86222-2D04-585C-D411-B390627FBBF9}'
     ];
 
     public function Create()

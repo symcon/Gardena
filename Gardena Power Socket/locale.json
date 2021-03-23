@@ -1,0 +1,21 @@
+{
+    "translations": {
+        "de": {
+            "State": "Status",
+            "ok": "Ok",
+            "warning": "Warnung",
+            "unavailable": "Nicht verbunden",
+            "error": "Fehler",
+            "Activity": "Aktivität",
+            "off": "Aus",
+            "physical on": "Physikalisch an",
+            "manual on": "Manuelles an",
+            "scheduled on": "An nach Zeitplan",
+            "Last Error": "Fehlercode",
+            "action cancelled": "Aktion abgebrochen",
+            "unknown": "Unbekannt",
+            "Duration": "Dauer",
+            " Seconds": " Sekunden"
+        }
+    }
+}

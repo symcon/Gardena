@@ -1,0 +1,14 @@
+{
+    "id": "{82A86222-2D04-585C-D411-B390627FBBF9}",
+    "name": "Gardena Power Socket",
+    "type": 3,
+    "vendor": "",
+    "aliases": [],
+    "parentRequirements": ["{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+    "childRequirements": [],
+    "implemented": [
+        "{56245A2E-9937-C486-B7C0-DC30275EEDF6}"
+    ],
+    "prefix": "GARDENA",
+    "url": "https://symcon.de"
+}
