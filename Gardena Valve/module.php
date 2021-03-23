@@ -40,7 +40,7 @@ class GardenaValve extends GardenaDevice
         //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
-            IPS_SetVariableProfileIcon('Gatdena.State', 'Information');
+            IPS_SetVariableProfileIcon('Gardena.State', 'Information');
             IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('ok'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'WARNING', $this->Translate('warning'), '', 0xffff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('unavailable'), '', 0xff0000);
