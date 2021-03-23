@@ -36,6 +36,7 @@ class GardenaCommon extends GardenaDevice
         //COMMON
         if (!IPS_VariableProfileExists('Gardena.Battery')) {
             IPS_CreateVariableProfile('Gardena.Battery', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.Battery', 'Battery');
             IPS_SetVariableProfileAssociation('Gardena.Battery', 'OK', $this->Translate('ok'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.Battery', 'LOW', $this->Translate('low'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Battery', 'REPLACE_NOW', $this->Translate('replace now'), '', -1);
@@ -47,6 +48,7 @@ class GardenaCommon extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.ReachableStatus')) {
             IPS_CreateVariableProfile('Gardena.ReachableStatus', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.ReachableStatus', 'Network');
             IPS_SetVariableProfileAssociation('Gardena.ReachableStatus', 'ONLINE', $this->Translate('online'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.ReachableStatus', 'OFFLINE', $this->Translate('offline'), '', 0xff0000);
             IPS_SetVariableProfileAssociation('Gardena.ReachableStatus', 'UNKNOWN', $this->Translate('unknown'), '', 0xff0000);

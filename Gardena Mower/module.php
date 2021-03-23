@@ -70,6 +70,7 @@ class GardenaMower extends GardenaDevice
         //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.State', 'Information');
             IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('ok'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'WARNING', $this->Translate('warning'), '', 0xffff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('unavailable'), '', 0xff0000);
@@ -79,6 +80,7 @@ class GardenaMower extends GardenaDevice
         //MOWER
         if (!IPS_VariableProfileExists('Gardena.Mower.Activity')) {
             IPS_CreateVariableProfile('Gardena.Mower.Activity', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.Mower.Activity', 'Power');
             IPS_SetVariableProfileAssociation('Gardena.Mower.Activity', 'NONE', $this->Translate('none'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Activity', 'PAUSED', $this->Translate('paused'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Activity', 'OK_CUTTING', $this->Translate('cutting'), '', -1);
@@ -93,6 +95,7 @@ class GardenaMower extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Mower.Error')) {
             IPS_CreateVariableProfile('Gardena.Mower.Error', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gardena.Mower.Error', 'Warning');
             IPS_SetVariableProfileAssociation('Gardena.Mower.Error', 'NO_MESSAGE', $this->Translate('no message'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Error', 'OUTSIDE_WORKING_AREA', $this->Translate('outside working area'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Error', 'NO_LOOP_SIGNAL', $this->Translate('no loop signal'), '', -1);
@@ -129,6 +132,7 @@ class GardenaMower extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Hours')) {
             IPS_CreateVariableProfile('Gardena.Hours', VARIABLETYPE_INTEGER);
+            IPS_SetVariableProfileIcon('Gardena.Hours', 'Clock');
             IPS_SetVariableProfileText('Gardena.Hours', '', $this->Translate(' Hours'));
         }
     }

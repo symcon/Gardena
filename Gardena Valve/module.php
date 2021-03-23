@@ -33,7 +33,6 @@ class GardenaValve extends GardenaDevice
     protected $exclude = ['name', 'serial', 'modelType'];
     protected $type = 'VALVE';
     protected $control = 'VALVE_CONTROL';
-    protected $commands = ['START_SECONDS_TO_OVERRIDE', 'STOP_UNTIL_NEXT_TASK', 'PAUSE', 'UNPAUSE'];
     public function Create()
     {
         parent::Create();
@@ -41,6 +40,7 @@ class GardenaValve extends GardenaDevice
         //Universal for all devices
         if (!IPS_VariableProfileExists('Gardena.State')) {
             IPS_CreateVariableProfile('Gardena.State', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gatdena.State', 'Information');
             IPS_SetVariableProfileAssociation('Gardena.State', 'OK', $this->Translate('ok'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'WARNING', $this->Translate('warning'), '', 0xffff00);
             IPS_SetVariableProfileAssociation('Gardena.State', 'UNAVAILABLE', $this->Translate('unavailable'), '', 0xff0000);
@@ -50,6 +50,7 @@ class GardenaValve extends GardenaDevice
         //VALVE
         if (!IPS_VariableProfileExists('Gardena.Valve.Activity')) {
             IPS_CreateVariableProfile('Gardena.Valve.Activity', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gatdena.Valve.Activity', 'Power');
             IPS_SetVariableProfileAssociation('Gardena.Valve.Activity', 'CLOSED', $this->Translate('closed'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Activity', 'MANUAL_WATERING', $this->Translate('manual watering'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Activity', 'SCHEDULED_WATERING', $this->Translate('scheduled watering'), '', -1);
@@ -57,6 +58,7 @@ class GardenaValve extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Error')) {
             IPS_CreateVariableProfile('Gardena.Valve.Error', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gatdena.Valve.Error', 'Warning');
             IPS_SetVariableProfileAssociation('Gardena.Valve.Error', 'NO_MESSAGE', $this->Translate('no message'), '', 0x00ff00);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Error', 'CONCURRENT_LIMIT_REACHED ', $this->Translate('limit of 2 open valves reached'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Error', 'NOT_CONNECTED ', $this->Translate('not connected'), '', -1);
@@ -74,24 +76,28 @@ class GardenaValve extends GardenaDevice
 
         if (!IPS_VariableProfileExists('Gardena.Seconds')) {
             IPS_CreateVariableProfile('Gardena.Seconds', VARIABLETYPE_INTEGER);
+            IPS_SetVariableProfileIcon('Gatdena.Seconds', 'Power');
             IPS_SetVariableProfileAssociation('Gardena.Seconds', 0, '%d', '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Seconds', 1, $this->Translate('%d seconds'), '', -1);
         }
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Commands')) {
             IPS_CreateVariableProfile('Gardena.Valve.Commands', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gatdena.Valve.Activity', 'Exceute');
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands', 'START_SECONDS_TO_OVERRIDE', $this->Translate('open'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands', 'STOP_UNTIL_NEXT_TASK', $this->Translate('close'), '', -1);
         }
 
         if (!IPS_VariableProfileExists('Gardena.Command.Minutes')) {
             IPS_CreateVariableProfile('Gardena.Command.Minutes', VARIABLETYPE_INTEGER);
+            IPS_SetVariableProfileIcon('Gatdena.Command.Minutes', 'Clock');
             IPS_SetVariableProfileText('Gardena.Command.Minutes', '', $this->Translate(' Minutes'));
             IPS_SetVariableProfileValues('Gardena.Command.Minutes', 1, 360, 1);
         }
 
         if (!IPS_VariableProfileExists('Gardena.Valve.Commands.Schedule')) {
             IPS_CreateVariableProfile('Gardena.Valve.Commands.Schedule', VARIABLETYPE_STRING);
+            IPS_SetVariableProfileIcon('Gatdena.Valve.Commands.Schedule', 'Calendar');
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'PAUSE', $this->Translate('activate'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Valve.Commands.Schedule', 'UNPAUSE', $this->Translate('deactivate'), '', -1);
         }
@@ -145,7 +151,7 @@ class GardenaValve extends GardenaDevice
                 break;
 
             default:
-                throw new Exception(sprintf('Invalid Ident: %s'), $Ident);
+                break;
 
         }
 
