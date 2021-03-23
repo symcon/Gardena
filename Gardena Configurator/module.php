@@ -13,6 +13,12 @@ class GardenaConfigurator extends IPSModule
         'MOWER'              => '{5E7255D9-6A2E-F10B-9430-360F00A66963}',
         'POWER_SOCKET'       => '{82A86222-2D04-585C-D411-B390627FBBF9}'
     ];
+    const STATES = [
+        'OK'          => 'ok',
+        'UNAVAILABLE' => 'unavailable',
+        'ERROR'       => 'error',
+        'WARNING'     => 'warning'
+    ];
 
     public function Create()
     {
@@ -46,8 +52,8 @@ class GardenaConfigurator extends IPSModule
         $locations = [[
             'Name'         => $location['data']['attributes']['name'],
             'SerialNumber' => '',
-            'ModelType'    => '',
-            'LinkState'    => '',
+            'Type'         => '',
+            'State'        => '',
             'id'           => $location['data']['id'] . $location['data']['type'],
             'ID'           => $location['data']['id'],
             'expanded'     => true
@@ -67,17 +73,26 @@ class GardenaConfigurator extends IPSModule
                             case 'DEVICE':
                                 foreach ($device['relationships']['services']['data'] as $service) {
                                     $moduleGUID = $this->getGuidForType($service['type']);
-                                    $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
-                                    if ($service['type'] == 'COMMON') {
-                                        $deviceName = $this->Translate('Device Information');
+                                    switch ($service['type']) {
+                                        case 'COMMON':
+                                            $deviceName = $this->Translate('Device Information');
+                                            break;
+
+                                        case 'VALVE_SET':
+                                            $deviceName = $this->Translate('Main Valve');
+                                            break;
+
+                                        default:
+                                            $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
+                                            break;
                                     }
                                     $services[] = [
                                         'id'           => $service['id'] . $service['type'],
                                         'ID'           => $service['id'],
                                         'Name'         => $deviceName,
                                         'SerialNumber' => '',
-                                        'ModelType'    => '',
-                                        'LinkState'    => '',
+                                        'Type'         => $service['type'],
+                                        'State'        => $this->getServiceState($service['id'], $allDevices),
                                         'parent'       => $id . $mainDevice['type'],
                                         'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
                                         'create'       => [
@@ -130,14 +145,14 @@ class GardenaConfigurator extends IPSModule
         }
     }
 
-    private function getServiceName($id, $devices)
+    private function getServiceState($id, $devices)
     {
         foreach ($devices as $device) {
-            if ($device['id'] == $id && isset($device['attributes']['name']['value'])) {
-                return $device['attributes']['name']['value'];
+            if ($device['id'] == $id && isset($device['attributes']['state']['value'])) {
+                return $this->Translate(self::STATES[$device['attributes']['state']['value']]);
             }
         }
-        return 'unknown';
+        return '';
     }
 
     private function getCommonDeviceName($id, $devices)
@@ -177,8 +192,8 @@ class GardenaConfigurator extends IPSModule
             'ID'           => $mainDevice['id'],
             'Name'         => $attributes['name']['value'],
             'SerialNumber' => $attributes['serial']['value'],
-            'ModelType'    => $attributes['modelType']['value'],
-            'LinkState'    => $attributes['rfLinkState']['value'],
+            'Type'         => $attributes['modelType']['value'],
+            'State'        => $attributes['rfLinkState']['value'],
             'parent'       => $location['data']['id'] . $location['data']['type']
         ];
     }

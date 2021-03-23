@@ -18,12 +18,12 @@
 			"name": "SerialNumber",
 			"width": "200px"
 		}, {
-			"caption": "RF Link State",
-			"name": "LinkState",
+			"caption": "State",
+			"name": "State",
 			"width": "150px"
 		}, {
-			"caption": "Model Type",
-			"name": "ModelType",
+			"caption": "Type",
+			"name": "Type",
 			"width": "300px"
 		}],
 		"values": []

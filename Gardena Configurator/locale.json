@@ -1,12 +1,17 @@
 {
     "translations": {
         "de": {
+            "Main Valve": "Hauptventil",
             "Device Information": "Geräteinformationen",
             "Configurator": "Konfigurator",
             "Serial Number": "Seriennummer",
-            "RF Link State": "RF Link Status",
-            "Model Type": "Model Typ",
-            "InstanceID": "InstanceID"
+            "State": "Status",
+            "Type": "Typ",
+            "InstanceID": "InstanceID",
+            "ok": "OK",
+            "warning": "Warnung",
+            "unavailable": "Nicht verbunden",
+            "error": "Fehler"
         }
     }
 }
