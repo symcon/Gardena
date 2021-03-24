@@ -103,7 +103,7 @@ class GardenaConfigurator extends IPSModule
                                             'name'     => $deviceName,
                                             'location' => [
                                                 $this->Translate($location['data']['attributes']['name']),
-                                                $this->getCommonDeviceName($service['id'], $allDevices)
+                                                $this->getCommonDeviceName($device['id'], $allDevices)
                                             ]
                                         ]
                                     ];
