@@ -1,0 +1,18 @@
+{
+    "id": "{3210082F-5C3A-C23F-7353-9681B64FDBBC}",
+    "caption": "Turn Socket On Permanently",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'START_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Turn Socket On Permanently": "Zwischenstecker dauerhaft einschalten"
+        }
+    }
+}

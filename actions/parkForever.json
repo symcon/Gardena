@@ -1,0 +1,18 @@
+{
+    "id": "{049C4CE0-1A60-2C59-CA74-A3FEE68BA758}",
+    "caption": "Park and ignore schedule",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('MowerStop', $_IPS['TARGET']), 'PARK_UNTIL_FURTHER_NOTICE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{5E7255D9-6A2E-F10B-9430-360F00A66963}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Park and ignore schedule": "Parken und Zeitplan ignorieren"
+        }
+    }
+}

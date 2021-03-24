@@ -1,0 +1,18 @@
+{
+    "id": "{0FEE0118-2636-0C2A-1C8D-68708EF1AFBD}",
+    "caption": "Park until next task",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('MowerStop', $_IPS['TARGET']), 'PARK_UNTIL_NEXT_TASK');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{5E7255D9-6A2E-F10B-9430-360F00A66963}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Park until next task": "Parken bis zur nächsten Aufgabe"
+        }
+    }
+}

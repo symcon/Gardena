@@ -1,0 +1,30 @@
+{
+    "id": "{5CBC1890-F87A-A05F-A8F1-8D177F0B7321}",
+    "caption": "Turn Socket On",
+    "form": [
+        {
+            "type": "NumberSpinner",
+            "name": "DURATION",
+            "caption": "Duration",
+            "suffix": "Minutes"
+        }
+    ],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('ValveDuration', $_IPS['TARGET']), $_IPS['DURATION']);",
+        "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Turn Socket On": "Zwischenstecker einschalten",
+            "Duration": "Dauer",
+            "Minutes": "Minuten",
+            "Turn socket on for {DURATION} minutes": "Zwischenstecker für {DURATION} Minuten einschalten"
+        }
+    },
+    "format": "Turn socket on for {DURATION} minutes"
+}

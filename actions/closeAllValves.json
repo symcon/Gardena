@@ -1,0 +1,18 @@
+{
+    "id": "{797D37AD-CF0A-CE85-5CC6-E4738CEC60D3}",
+    "caption": "Close Main Valve",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('ValveSetControl', $_IPS['TARGET']), 'STOP_UNTIL_NEXT_TASK');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{F90A415A-0C56-66E6-F37B-4C2E6DB36742}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Close Main Valve": "Hauptventil schließen"
+        }
+    }
+}

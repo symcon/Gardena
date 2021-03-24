@@ -1,0 +1,30 @@
+{
+    "id": "{6C0C435E-A196-6CC8-5298-4A69E0E8721F}",
+    "caption": "Open Valve",
+    "form": [
+        {
+            "type": "NumberSpinner",
+            "name": "DURATION",
+            "caption": "Duration",
+            "suffix": "Minutes"
+        }
+    ],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('ValveDuration', $_IPS['TARGET']), $_IPS['DURATION']);",
+        "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{68FFB073-8C93-C74C-B3CB-02778AEDE152}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Open Valve": "Ventil öffnen",
+            "Duration": "Dauer",
+            "Minutes": "Minuten",
+            "Open valve for {DURATION} minutes": "Ventil für {DURATION} Minuten öffnen"
+        }
+    },
+    "format": "Open valve for {DURATION} minutes"
+}

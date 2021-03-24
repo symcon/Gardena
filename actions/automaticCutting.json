@@ -1,0 +1,18 @@
+{
+    "id": "{945B1B7A-68D9-E987-9F0E-1CAD5AD449F3}",
+    "caption": "Automatic Cutting",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('MowerStart', $_IPS['TARGET']), 'START_DONT_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{5E7255D9-6A2E-F10B-9430-360F00A66963}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Automatic Cutting": "Automatisch mähen"
+        }
+    }
+}

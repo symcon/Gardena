@@ -1,0 +1,30 @@
+{
+    "id": "{F2317495-E63F-544D-3EC3-17F612FAF010}",
+    "caption": "Manual Cutting",
+    "form": [
+        {
+            "type": "NumberSpinner",
+            "name": "DURATION",
+            "caption": "Duration",
+            "suffix": "Minutes"
+        }
+    ],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('MowerDuration', $_IPS['TARGET']), $_IPS['DURATION']);",
+        "RequestAction(IPS_GetObjectIDByIdent('MowerStart', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{5E7255D9-6A2E-F10B-9430-360F00A66963}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Manual Cutting": "Manuell mähen",
+            "Duration": "Dauer",
+            "Minutes": "Minuten",
+            "Manual cutting for {DURATION} minutes": "Manuel mähen für {DURATION} Minuten"
+        }
+    },
+    "format": "Manual cutting for {DURATION} minutes"
+}

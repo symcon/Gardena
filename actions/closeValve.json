@@ -1,0 +1,18 @@
+{
+    "id": "{9DE4D72B-C01A-15FE-B5FA-1A325F746DBA}",
+    "caption": "Close Valve",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'STOP_UNTIL_NEXT_TASK');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{68FFB073-8C93-C74C-B3CB-02778AEDE152}" ],
+        "environments": [ "TestCommands", "Default" ]
+    },
+    "locale": {
+        "de": {
+            "Close Valve": "Ventil schließen"
+        }
+    }
+}
