@@ -20,6 +20,15 @@ class GardenaConfigurator extends IPSModule
         'WARNING'     => 'warning'
     ];
 
+    const SERVICE_NAMES = [
+        'COMMON'       => 'common',
+        'VALVE'        => 'valve',
+        'VALVE_SET'    => 'main valve',
+        'SENSOR'       => 'sensor',
+        'POWER_SOCKET' => 'power socket',
+        'MOWER'        => 'mower'
+    ];
+
     public function Create()
     {
         //Never delete this line!
@@ -82,6 +91,15 @@ class GardenaConfigurator extends IPSModule
                                             $deviceName = $this->Translate('Main Valve');
                                             break;
 
+                                        case 'VALVE':
+                                            $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
+                                            //Translate default valve names
+                                            preg_match_all('/(Valve) ([1-6])/m', $deviceName, $matches);
+                                            if ($matches[0]) {
+                                                $deviceName = sprintf('%s %d', $this->Translate($matches[1][0]), $matches[2][0]);
+                                                $this->SendDebug('Name', $deviceName, 0);
+                                            }
+                                            break;
                                         default:
                                             $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
                                             break;
@@ -91,7 +109,7 @@ class GardenaConfigurator extends IPSModule
                                         'ID'           => $service['id'],
                                         'Name'         => $deviceName,
                                         'SerialNumber' => '',
-                                        'Type'         => $service['type'],
+                                        'Type'         => $this->getServiceDisplayName($service['type']),
                                         'State'        => $this->getServiceState($service['id'], $allDevices),
                                         'parent'       => $id . $mainDevice['type'],
                                         'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
@@ -170,6 +188,14 @@ class GardenaConfigurator extends IPSModule
             return $this->getCommonDeviceName($id, $devices);
         }
         return $id;
+    }
+
+    private function getServiceDisplayName($type)
+    {
+        if (self::SERVICE_NAMES[$type]) {
+            return $this->Translate(self::SERVICE_NAMES[$type]);
+        }
+        return $this->Translate('unknown');
     }
 
     private function getInstanceIDForGuid($id, $guid)

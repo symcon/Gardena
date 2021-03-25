@@ -12,7 +12,16 @@
             "warning": "Warnung",
             "unavailable": "Nicht verbunden",
             "error": "Fehler",
-            "My Garden": "Mein Garten"
+            "My Garden": "Mein Garten",
+            "unknown": "Unbekannt",
+            "common": "Allgemein",
+            "valve": "Ventil",
+            "main valve": "Hauptventil",
+            "sensor": "Sensor",
+            "power socket": "Zwischenstecker",
+            "mower": "Mäher",
+            "Valve": "Ventil"
+
         }
     }
 }
