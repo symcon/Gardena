@@ -14,5 +14,3 @@ __Unterstützte Geräte:__
 * [smart Sensor](https://www.symcon.de/service/dokumentation/modulreferenz/gardena-smart-system/smart-sensor/)
 * [smart SILENO Mower](https://www.symcon.de/service/dokumentation/modulreferenz/gardena-smart-system/smart-mower/)
 * [smart Water Control](https://www.symcon.de/service/dokumentation/modulreferenz/gardena-smart-system/smart-water-control/)
-
-
