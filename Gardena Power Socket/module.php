@@ -21,7 +21,7 @@ class GardenaPowerSocket extends GardenaDevice
             'profile'      => 'Gardena.Socket.Error'
         ],
         'duration' => [
-            'displayName'  => 'Duration',
+            'displayName'  => 'Remaining',
             'variableType' => VARIABLETYPE_INTEGER,
             'profile'      => 'Gardena.Seconds'
         ]
@@ -91,7 +91,7 @@ class GardenaPowerSocket extends GardenaDevice
         $this->RegisterVariableString('SocketControl', $this->Translate('Action'), 'Gardena.PowerSocket.Commands', 50);
         $this->SetValue('SocketControl', 'STOP_UNTIL_NEXT_TASK');
         $this->EnableAction('SocketControl');
-        $this->RegisterVariableInteger('SocketDuration', $this->Translate('Open Duration'), 'Gardena.Command.Minutes', 40);
+        $this->RegisterVariableInteger('SocketDuration', $this->Translate('Active Duration'), 'Gardena.Command.Minutes', 40);
         $this->SetValue('SocketDuration', 5);
         $this->EnableAction('SocketDuration');
 

@@ -14,10 +14,12 @@
             "Last Error": "Fehlercode",
             "action cancelled": "Aktion abgebrochen",
             "unknown": "Unbekannt",
-            "Duration": "Dauer",
             " Seconds": " Sekunden",
             "on": "An",
-            "temporary on": "Vorübergehend an"
+            "temporary on": "Vorübergehend an",
+            "Active Duration": "Aktivitätsdauer",
+            "Remaining": "Verbleibend",
+            "Action": "Aktion"
         }
     }
 }
