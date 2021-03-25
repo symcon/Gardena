@@ -13,6 +13,7 @@ class GardenaConfigurator extends IPSModule
         'MOWER'              => '{5E7255D9-6A2E-F10B-9430-360F00A66963}',
         'POWER_SOCKET'       => '{82A86222-2D04-585C-D411-B390627FBBF9}'
     ];
+
     const STATES = [
         'OK'          => 'ok',
         'UNAVAILABLE' => 'unavailable',
