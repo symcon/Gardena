@@ -121,7 +121,7 @@ class GardenaValve extends GardenaDevice
     {
         switch ($Ident) {
             case 'ValveControl':
-                $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $Minutes);
+                $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $this->GetValue('ValveDuration'));
                 break;
 
             // case 'ScheduleControl':
