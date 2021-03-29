@@ -8,7 +8,7 @@
     "restrictions": {
         "objectType": [ 1 ],
         "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
-        "environments": [ "TestCommands", "Default" ]
+        "includeEnvironments ": [ "TestCommands", "Default" ]
     },
     "locale": {
         "de": {
