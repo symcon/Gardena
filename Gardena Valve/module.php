@@ -141,7 +141,7 @@ class GardenaValve extends GardenaDevice
     {
         parent::processData($data);
         //Only process data meant for this intance
-        if ($data['type'] != $this->type) {
+        if (!isset($data['type']) || $data['type'] != $this->type) {
             return;
         }
         //Only process data meant matching our id
