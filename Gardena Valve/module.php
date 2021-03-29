@@ -105,10 +105,12 @@ class GardenaValve extends GardenaDevice
 
         //Open close commands
         $this->RegisterVariableString('ValveControl', $this->Translate('Action'), 'Gardena.Valve.Commands', 50);
-        $this->SetValue('ValveControl', 'STOP_UNTIL_NEXT_TASK');
+        $this->SetValue('ValveControl', 'NONE');
         $this->EnableAction('ValveControl');
         $this->RegisterVariableInteger('ValveDuration', $this->Translate('Open Duration'), 'Gardena.Command.Minutes', 40);
-        $this->SetValue('ValveDuration', 5);
+        if ($this->GetValue('ValveDuration') == 0) {
+            $this->SetValue('ValveDuration', 5);
+        }
         $this->EnableAction('ValveDuration');
 
         //Schedule commands
@@ -129,11 +131,10 @@ class GardenaValve extends GardenaDevice
             //     break;
 
             default:
+                $this->SetValue($Ident, $Value);
                 break;
 
         }
-
-        $this->SetValue($Ident, $Value);
     }
 
     protected function processData($data)

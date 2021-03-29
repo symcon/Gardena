@@ -150,6 +150,7 @@ class GardenaMower extends GardenaDevice
         if (!IPS_VariableProfileExists('Gardena.Mower.Start.Commands')) {
             IPS_CreateVariableProfile('Gardena.Mower.Start.Commands', VARIABLETYPE_STRING);
             IPS_SetVariableProfileIcon('Gardena.Mower.Start.Commands', 'Execute');
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Start.Commands', 'NONE', '', '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Start.Commands', 'START_SECONDS_TO_OVERRIDE', $this->Translate('manual'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Start.Commands', 'START_DONT_OVERRIDE', $this->Translate('follow schedule'), '', -1);
         }
@@ -157,6 +158,7 @@ class GardenaMower extends GardenaDevice
         if (!IPS_VariableProfileExists('Gardena.Mower.Stop.Commands')) {
             IPS_CreateVariableProfile('Gardena.Mower.Stop.Commands', VARIABLETYPE_STRING);
             IPS_SetVariableProfileIcon('Gardena.Mower.Stop.Commands', 'Execute');
+            IPS_SetVariableProfileAssociation('Gardena.Mower.Stop.Commands', 'NONE', '', '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Stop.Commands', 'PARK_UNTIL_NEXT_TASK', $this->Translate('until next task'), '', -1);
             IPS_SetVariableProfileAssociation('Gardena.Mower.Stop.Commands', 'PARK_UNTIL_FURTHER_NOTICE', $this->Translate('ignore schedule'), '', -1);
         }
@@ -164,7 +166,7 @@ class GardenaMower extends GardenaDevice
         //Commands
         //Start commands
         $this->RegisterVariableString('MowerStart', $this->Translate('Cutting'), 'Gardena.Mower.Start.Commands', 60);
-        $this->SetValue('MowerStart', 'START_DONT_OVERRIDE');
+        $this->SetValue('MowerStart', 'NONE');
         $this->EnableAction('MowerStart');
         $this->RegisterVariableInteger('MowerDuration', $this->Translate('Cutting Duration'), 'Gardena.Command.Minutes', 50);
         $this->SetValue('MowerDuration', 5);
@@ -172,7 +174,6 @@ class GardenaMower extends GardenaDevice
 
         //Stop commands
         $this->RegisterVariableString('MowerStop', $this->Translate('Parking'), 'Gardena.Mower.Stop.Commands', 70);
-        $this->SetValue('MowerStop', 'PARK_UNTIL_NEXT_TASK');
         $this->EnableAction('MowerStop');
     }
 
@@ -188,10 +189,9 @@ class GardenaMower extends GardenaDevice
                 break;
 
             default:
+                $this->SetValue($Ident, $Value);
                 break;
 
         }
-
-        $this->SetValue($Ident, $Value);
     }
 }

@@ -52,7 +52,6 @@ class GardenaValveSet extends GardenaDevice
         }
 
         $this->RegisterVariableString('ValveSetControl', $this->Translate('Action'), 'Gardena.ValveSet.Commands', 0);
-        $this->SetValue('ValveSetControl', 'STOP_UNTIL_NEXT_TASK');
         $this->EnableAction('ValveSetControl');
     }
 
@@ -66,7 +65,5 @@ class GardenaValveSet extends GardenaDevice
             default:
                 throw new Exception(sprintf('Invalid Ident: %s'), $Ident);
         }
-
-        $this->SetValue($Ident, $Value);
     }
 }
