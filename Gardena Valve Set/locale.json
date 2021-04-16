@@ -13,7 +13,9 @@
             "no MCU connected": "Keine MCU verbunden",
             "unknown": "Unbekannt",
             "Action": "Aktion",
-            "close all valves": "Alle Ventile schließen"
+            "close all valves": "Alle Ventile schließen",
+            "Device ID": "Geräte ID",
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }

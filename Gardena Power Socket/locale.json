@@ -19,7 +19,9 @@
             "temporary on": "Vorübergehend an",
             "Active Duration": "Aktivitätsdauer",
             "Remaining": "Verbleibend",
-            "Action": "Aktion"
+            "Action": "Aktion",
+            "Device ID": "Geräte ID",
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }

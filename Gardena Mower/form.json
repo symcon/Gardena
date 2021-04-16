@@ -4,6 +4,11 @@
             "type": "ValidationTextBox",
             "caption": "Device ID",
             "name": "ID"
+        },
+        {
+            "type": "CheckBox",
+            "caption": "Last Transmission",
+            "name": "Timestamp"
         }
     ],
     "actions": [],

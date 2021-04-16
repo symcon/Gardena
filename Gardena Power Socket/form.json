@@ -10,6 +10,11 @@
             "caption": "Update Interval",
             "name": "UpdateInterval",
             "suffix": "Seconds"
+        },
+        {
+            "type": "CheckBox",
+            "caption": "Last Transmission",
+            "name": "Timestamp"
         }
     ],
     "actions": [],

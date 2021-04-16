@@ -33,7 +33,10 @@
             "deactivate": "Deaktivieren",
             "Action": "Aktion",
             "Open Duration": "Öffnungsdauer",
-            "Update Inerval": "Aktualisierungsintervall"
+            "Update Interval": "Aktualisierungsintervall",
+            "Device ID": "Geräte ID",
+            "Last Transmission": "Letzte Übertragung"
+
         }
     }
 }

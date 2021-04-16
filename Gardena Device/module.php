@@ -18,6 +18,7 @@ class GardenaDevice extends IPSModule
         //Properties
         $this->RegisterPropertyString('ID', '');
         $this->RegisterPropertyInteger('UpdateInterval', 5);
+        $this->RegisterPropertyBoolean('Timestamp', false);
 
         //Timer
         $this->RegisterTimer('UpdateDuration', 0, 'GARDENA_UpdateDuration($_IPS[\'TARGET\']);');
@@ -104,8 +105,19 @@ class GardenaDevice extends IPSModule
                 }
                 $meta = $this->metadata[$attribute];
                 $position = isset($meta['position']) ? $meta['position'] : 0;
+                //Real value
                 $this->MaintainVariable($attribute, $this->Translate($meta['displayName']), $meta['variableType'], $meta['profile'], $position, true);
                 $this->SetValue($attribute, $value['value']);
+
+                //Timestamp of the last transmission
+                if (isset($value['timestamp'])) {
+                    $this->MaintainVariable($attribute . 'TimeStamp', $this->Translate($meta['displayName']) . ' ' . $this->Translate('Last Transmission'), VARIABLETYPE_INTEGER, '~UnixTimestamp', $position, $this->ReadPropertyBoolean('Timestamp'));
+                    //Update timestamp only if the variable should exist
+                    if ($this->ReadPropertyBoolean('Timestamp')) {
+                        $this->SetValue($attribute . 'TimeStamp', intval(date('U', strtotime($value['timestamp']))));
+                    }
+                }
+                $this->SendDebug('Timestamp', intval(date('U', strtotime($value['timestamp']))), 0);
             } elseif (!in_array($attribute, $this->exclude)) {
                 switch (gettype($value['value'])) {
                             case 'double':

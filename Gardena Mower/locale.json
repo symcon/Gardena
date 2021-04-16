@@ -83,7 +83,9 @@
             "follow schedule": "Nach Zeitplan",
             "until next task": "Bis nächste Aufgabe",
             "ignore schedule": "Zeitplan ignorieren",
-            " Minutes": " Minuten"
+            " Minutes": " Minuten",
+            "Device ID": "Geräte ID",
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }
