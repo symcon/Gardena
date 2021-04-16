@@ -7,7 +7,7 @@
         },
         {
             "type": "CheckBox",
-            "caption": "Last Transmission",
+            "caption": "Show Last Transmission",
             "name": "Timestamp"
         }
     ],

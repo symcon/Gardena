@@ -6,7 +6,7 @@
             "Ambient Temperature": "Umgebungstemperatur",
             "Light Intensity": "Licht Intensität",
             "Device ID": "Geräte ID",
-            "Last Transmission": "Letzte Übertragung"
+            "Show Last Transmission": "Letzte Übertragung anzeigen"
         }
     }
 }
