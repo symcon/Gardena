@@ -1,0 +1,18 @@
+{
+    "id": "{C22995E2-1A1D-7FF7-68F9-241500663645}",
+    "caption": "Turn Socket Off",
+    "form": [],
+    "action": [
+        "RequestAction(IPS_GetObjectIDByIdent('SocketControl, $_IPS['TARGET']), 'STOP_UNTIL_NEXT_TASK');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
+        "includeEnvironments": ["EventSchedule"]
+    },
+    "locale": {
+        "de": {
+            "Turn Socket Off": "Zwischenstecker ausschalten"
+        }
+    }
+}

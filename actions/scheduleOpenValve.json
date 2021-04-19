@@ -1,0 +1,22 @@
+{
+    "id": "{BC345867-A2DA-635D-DD40-61C3C1BFBCFC}",
+    "caption": "Open Valve",
+    "form": [],
+    "action": [
+        "$event = IPS_GetEvent($_IPS['EVENT']);",
+        "$durationMinutes = ($event['NextRun'] - $event['LastRun']) / 60;",
+        "IPS_LogMessage('Minutes', $durationMinutes);",
+        "RequestAction(IPS_GetObjectIDByIdent('ValveDuration', $_IPS['TARGET']), $durationMinutes);",
+        "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{68FFB073-8C93-C74C-B3CB-02778AEDE152}" ],
+        "includeEnvironments": ["EventSchedule"]
+    },
+    "locale": {
+        "de": {
+            "Open Valve": "Ventil öffnen"
+        }
+    }
+}

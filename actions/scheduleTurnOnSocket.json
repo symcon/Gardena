@@ -1,0 +1,22 @@
+{
+    "id": "{13701971-CA05-E308-289A-45E0E31CE4CD}",
+    "caption": "Turn Socket On",
+    "form": [],
+    "action": [
+        "$event = IPS_GetEvent($_IPS['EVENT']);",
+        "$durationMinutes = ($event['NextRun'] - $event['LastRun']) / 60;",
+        "IPS_LogMessage('Minutes', $durationMinutes);",
+        "RequestAction(IPS_GetObjectIDByIdent('SocketDuration', $_IPS['TARGET']), $durationMinutes);",
+        "RequestAction(IPS_GetObjectIDByIdent('SocketControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
+    ],
+    "restrictions": {
+        "objectType": [ 1 ],
+        "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
+        "includeEnvironments": ["EventSchedule"]
+    },
+    "locale": {
+        "de": {
+            "Turn Socket On": "Zwischenstecker einschalten"
+        }
+    }
+}
