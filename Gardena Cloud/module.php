@@ -70,7 +70,6 @@ declare(strict_types=1);
             } else {
                 $result = $this->getData($endpoint);
             }
-            $this->SendDebug($endpoint, $result, 0);
             return $result;
         }
 
@@ -118,7 +117,6 @@ declare(strict_types=1);
 
             $response = json_decode($this->postData('websocket', $payload), true);
             $url = $response['data']['attributes']['url'];
-            $this->SendDebug('websocket', $url, 0);
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             if (!IPS_GetProperty($parent, 'Active')) {
                 echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to work');
@@ -300,10 +298,6 @@ declare(strict_types=1);
 
         private function putData($endpoint, $content)
         {
-            $this->SendDebug('content', $content, 0);
-            $this->SendDebug('url', self::SMART_SYSTEM_BASE_URL . $endpoint, 0);
-            $this->SendDebug('token', $this->FetchAccessToken(), 0);
-
             $opts = [
                 'http'=> [
                     'method' => 'PUT',
@@ -317,7 +311,6 @@ declare(strict_types=1);
             $context = stream_context_create($opts);
 
             $result = file_get_contents(self::SMART_SYSTEM_BASE_URL . $endpoint, false, $context);
-            $this->SendDebug('header', $http_response_header[0], 0);
 
             if ((strpos($http_response_header[0], '202') === false)) {
                 echo $http_response_header[0] . PHP_EOL . $result;

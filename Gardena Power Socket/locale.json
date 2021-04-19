@@ -21,7 +21,8 @@
             "Remaining": "Verbleibend",
             "Action": "Aktion",
             "Device ID": "Geräte ID",
-            "Show Last Transmission": "Letzte Übertragung anzeigen"
+            "Show Last Transmission": "Letzte Übertragung anzeigen",
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }

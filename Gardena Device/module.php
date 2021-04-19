@@ -117,7 +117,6 @@ class GardenaDevice extends IPSModule
                         $this->SetValue($attribute . 'TimeStamp', intval(date('U', strtotime($value['timestamp']))));
                     }
                 }
-                $this->SendDebug('Timestamp', intval(date('U', strtotime($value['timestamp']))), 0);
             } elseif (!in_array($attribute, $this->exclude)) {
                 switch (gettype($value['value'])) {
                             case 'double':

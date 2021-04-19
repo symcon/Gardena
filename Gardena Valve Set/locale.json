@@ -15,7 +15,8 @@
             "Action": "Aktion",
             "close all valves": "Alle Ventile schließen",
             "Device ID": "Geräte ID",
-            "Show Last Transmission": "Letzte Übertragung anzeigen"
+            "Show Last Transmission": "Letzte Übertragung anzeigen",
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }

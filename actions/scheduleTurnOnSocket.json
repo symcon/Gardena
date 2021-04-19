@@ -5,7 +5,6 @@
     "action": [
         "$event = IPS_GetEvent($_IPS['EVENT']);",
         "$durationMinutes = ($event['NextRun'] - $event['LastRun']) / 60;",
-        "IPS_LogMessage('Minutes', $durationMinutes);",
         "RequestAction(IPS_GetObjectIDByIdent('SocketDuration', $_IPS['TARGET']), $durationMinutes);",
         "RequestAction(IPS_GetObjectIDByIdent('SocketControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
     ],

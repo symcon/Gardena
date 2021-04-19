@@ -85,7 +85,8 @@
             "ignore schedule": "Zeitplan ignorieren",
             " Minutes": " Minuten",
             "Device ID": "Geräte ID",
-            "Show Last Transmission": "Letzte Übertragung anzeigen"
+            "Show Last Transmission": "Letzte Übertragung anzeigen",
+"Last Transmission": "Letzte Übertragung"
         }
     }
 }

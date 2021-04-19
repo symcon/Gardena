@@ -35,7 +35,8 @@
             "Open Duration": "Öffnungsdauer",
             "Update Interval": "Aktualisierungsintervall",
             "Device ID": "Geräte ID",
-            "Show Last Transmission": "Letzte Übertragung anzeigen"
+            "Show Last Transmission": "Letzte Übertragung anzeigen",
+            "Last Transmission": "Letzte Übertragung"
 
         }
     }
