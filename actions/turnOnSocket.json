@@ -16,7 +16,8 @@
     "restrictions": {
         "objectType": [ 1 ],
         "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
-        "includeEnvironments ": [ "TestCommands", "Default" ]
+        "includeEnvironments": ["TestCommands", "Default"],
+        "excludeEnvironments": ["EventSchedule"]
     },
     "locale": {
         "de": {
