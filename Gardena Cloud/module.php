@@ -155,9 +155,8 @@ declare(strict_types=1);
                 $this->WriteAttributeString('Token', $token);
                 $this->SetStatus(IS_ACTIVE);
                 $this->UpdateFormField('Token', 'caption', 'Token: ' . substr($token, 0, 16) . '...');
-                if ($this->HasActiveParent()) {
-                    $this->UpdateWebSocket();
-                }
+                $this->UpdateWebSocket();   
+
             } else {
 
                 //Just print raw post data!
