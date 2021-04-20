@@ -154,8 +154,7 @@ declare(strict_types=1);
 
                 $this->WriteAttributeString('Token', $token);
                 $this->SetStatus(IS_ACTIVE);
-                $this->UpdateWebSocket();   
-
+                $this->UpdateWebSocket();
             } else {
 
                 //Just print raw post data!
@@ -196,46 +195,51 @@ declare(strict_types=1);
 
             //Exchange our Refresh Token for a temporary Access Token
             if ($Token == '' && $Expires == 0) {
-
-                //Check if we already have a valid Token in cache
-                $data = $this->GetBuffer('AccessToken');
-                if ($data != '') {
-                    $data = json_decode($data);
-                    if (time() < $data->Expires) {
-                        $this->SendDebug('FetchAccessToken', 'OK! Access Token is valid until ' . date('d.m.y H:i:s', $data->Expires), 0);
-                        return $data->Token;
+                if (IPS_SemaphoreEnter('Gardena', 5 * 1000)) {
+                    //Check if we already have a valid Token in cache
+                    $data = $this->GetBuffer('AccessToken');
+                    if ($data != '') {
+                        $data = json_decode($data);
+                        if (time() < $data->Expires) {
+                            $this->SendDebug('FetchAccessToken', 'OK! Access Token is valid until ' . date('d.m.y H:i:s', $data->Expires), 0);
+                            IPS_SemaphoreLeave('Gardena');
+                            return $data->Token;
+                        }
                     }
-                }
 
-                $this->SendDebug('FetchAccessToken', 'Use Refresh Token to get new Access Token!', 0);
+                    $this->SendDebug('FetchAccessToken', 'Use Refresh Token to get new Access Token!', 0);
 
-                //If we slipped here we need to fetch the access token
-                $options = [
-                    'http' => [
-                        'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
-                        'method'  => 'POST',
-                        'content' => http_build_query(['refresh_token' => $this->ReadAttributeString('Token')])
-                    ]
-                ];
-                $context = stream_context_create($options);
-                $result = file_get_contents('https://' . $this->oauthServer . '/access_token/' . $this->oauthIdentifer, false, $context);
+                    //If we slipped here we need to fetch the access token
+                    $options = [
+                        'http' => [
+                            'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
+                            'method'  => 'POST',
+                            'content' => http_build_query(['refresh_token' => $this->ReadAttributeString('Token')])
+                        ]
+                    ];
+                    $context = stream_context_create($options);
+                    $result = file_get_contents('https://' . $this->oauthServer . '/access_token/' . $this->oauthIdentifer, false, $context);
 
-                $data = json_decode($result);
+                    $data = json_decode($result);
 
-                if (!isset($data->token_type) || $data->token_type != 'Bearer') {
-                    die('Bearer Token expected');
-                }
+                    if (!isset($data->token_type) || $data->token_type != 'Bearer') {
+                        die('Bearer Token expected');
+                    }
 
-                //Update parameters to properly cache it in the next step
-                $Token = $data->access_token;
-                $Expires = time() + $data->expires_in;
+                    //Update parameters to properly cache it in the next step
+                    $Token = $data->access_token;
+                    $Expires = time() + $data->expires_in;
 
-                //Update Refresh Token if we received one! (This is optional)
-                if (isset($data->refresh_token)) {
-                    $this->SendDebug('FetchAccessToken', "NEW! Let's save the updated Refresh Token permanently", 0);
+                    //Update Refresh Token if we received one! (This is optional)
+                    if (isset($data->refresh_token)) {
+                        $this->SendDebug('FetchAccessToken', "NEW! Let's save the updated Refresh Token permanently", 0);
 
-                    $this->WriteAttributeString('Token', $data->refresh_token);
-                    $this->SetStatus(IS_ACTIVE);
+                        $this->WriteAttributeString('Token', $data->refresh_token);
+                        $this->SetStatus(IS_ACTIVE);
+                    }
+                    IPS_SemaphoreLeave('Gardena');
+                } else {
+                    die('Cannot fetch AccesToken due to parallel requests');
                 }
             }
 
