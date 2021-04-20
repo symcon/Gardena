@@ -154,7 +154,6 @@ declare(strict_types=1);
 
                 $this->WriteAttributeString('Token', $token);
                 $this->SetStatus(IS_ACTIVE);
-                $this->UpdateFormField('Token', 'caption', 'Token: ' . substr($token, 0, 16) . '...');
                 $this->UpdateWebSocket();   
 
             } else {
@@ -237,7 +236,6 @@ declare(strict_types=1);
 
                     $this->WriteAttributeString('Token', $data->refresh_token);
                     $this->SetStatus(IS_ACTIVE);
-                    $this->UpdateFormField('Token', 'caption', 'Token: ' . substr($data->refresh_token, 0, 16) . '...');
                 }
             }
 
