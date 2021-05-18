@@ -192,11 +192,10 @@ declare(strict_types=1);
 
         private function FetchAccessToken($Token = '', $Expires = 0)
         {
-
-            //Exchange our Refresh Token for a temporary Access Token
-            if ($Token == '' && $Expires == 0) {
-                if (IPS_SemaphoreEnter('Gardena', 5 * 1000)) {
-                    //Check if we already have a valid Token in cache
+            if (IPS_SemaphoreEnter('Gardena', 5 * 1000)) {
+                //Exchange our Refresh Token for a temporary Access Token
+                if ($Token == '' && $Expires == 0) {
+                    // Check if we already have a valid Token in cache
                     $data = $this->GetBuffer('AccessToken');
                     if ($data != '') {
                         $data = json_decode($data);
@@ -237,16 +236,17 @@ declare(strict_types=1);
                         $this->WriteAttributeString('Token', $data->refresh_token);
                         $this->SetStatus(IS_ACTIVE);
                     }
-                    IPS_SemaphoreLeave('Gardena');
-                } else {
-                    die('Cannot fetch AccesToken due to parallel requests');
                 }
+
+                $this->SendDebug('FetchAccessToken', 'CACHE! New Access Token is valid until ' . date('d.m.y H:i:s', $Expires), 0);
+
+                //Save current Token
+                $this->SetBuffer('AccessToken', json_encode(['Token' => $Token, 'Expires' => $Expires]));
+
+                IPS_SemaphoreLeave('Gardena');
+            } else {
+                die('Cannot fetch AccesToken due to parallel requests');
             }
-
-            $this->SendDebug('FetchAccessToken', 'CACHE! New Access Token is valid until ' . date('d.m.y H:i:s', $Expires), 0);
-
-            //Save current Token
-            $this->SetBuffer('AccessToken', json_encode(['Token' => $Token, 'Expires' => $Expires]));
 
             //Return current Token
             return $Token;
