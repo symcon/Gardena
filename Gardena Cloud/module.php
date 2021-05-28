@@ -6,7 +6,7 @@ declare(strict_types=1);
 
     class GardenaCloud extends WebOAuthModule
     {
-        const SMART_SYSTEM_BASE_URL = 'https://oauth.symcon.cloud/proxy/gardena/v1/';
+        const SMART_SYSTEM_BASE_URL = 'https://oauth.ipmagic.de/proxy/gardena/v1/';
 
         private $oauthIdentifer = 'gardena';
 
@@ -245,7 +245,7 @@ declare(strict_types=1);
 
                 IPS_SemaphoreLeave('Gardena');
             } else {
-                die('Cannot fetch AccesToken due to parallel requests');
+                die('Cannot fetch AccessToken due to parallel requests');
             }
 
             //Return current Token
