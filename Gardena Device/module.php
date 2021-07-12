@@ -44,6 +44,8 @@ class GardenaDevice extends IPSModule
                 }
             }
         }
+
+        $this->SetReceiveDataFilter('.*' . $this->ReadPropertyString('ID') . '.*');
     }
 
     public function ReceiveData($JSONString)
