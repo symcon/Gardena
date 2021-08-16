@@ -23,10 +23,13 @@ declare(strict_types=1);
             parent::Create();
 
             $this->RegisterAttributeString('Token', '');
+            $this->RegisterAttributeInteger('ErrorCount', 0);
 
             $this->RequireParent('{D68FD31F-0E90-7019-F16C-1949BD3079EF}');
 
             $this->RegisterTimer('PingWebSocket', (120 * 1000), 'GARDENA_Ping($_IPS[\'TARGET\']);');
+            $this->RegisterTimer('RetryTimer', 0, 'GARDENA_RetryUpdate($_IPS[\'TARGET\']);');
+            $this->RegisterTimer('ResetTimer', (8 * 60 * 60 * 1000), 'GARDENA_ResetRetry($_IPS[\'TARGET\']);');
 
             $this->RegisterMessage(IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
         }
@@ -81,7 +84,9 @@ declare(strict_types=1);
                     case IM_CHANGESTATUS:
                         //Update websocket if faulty and the url matches the api
                         if ($Data[0] >= IS_EBASE && strpos(IPS_GetProperty($parentID, 'URL'), 'husqvarnagroup.net')) {
-                            $this->UpdateWebSocket();
+                            if ($this->GetTimerInterval('RetryTimer') == 0) {
+                                $this->RetryUpdate();
+                            }
                         }
                         break;
                 }
@@ -134,6 +139,22 @@ declare(strict_types=1);
                 'URL'               => $url ? $url : 'wss://echo.websocket.org',
                 'VerifyCertificate' => true
             ]);
+        }
+
+        public function RetryUpdate()
+        {
+            $errorCount = $this->ReadAttributeInteger('ErrorCount');
+            $this->SetTimerInterval('RetryTimer', pow(2, $errorCount++) * 1000);
+            $this->SendDebug('Error Counter', $errorCount, 0);
+            $this->SendDebug('Reconnect Timer', 'Retrying in  ' . pow(2, $errorCount) . ' seconds', 0);
+            $this->WriteAttributeInteger('ErrorCount', $errorCount);
+            $this->UpdateWebSocket();
+        }
+
+        public function ResetRetry()
+        {
+            $this->SetTimerInterval('RetryTimer', 0);
+            $this->WriteAttributeInteger('ErrorCount', 0);
         }
 
         /**
