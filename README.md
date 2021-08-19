@@ -1,6 +1,6 @@
 # GARDENA smart system
 
-[![IP-Symcon is awesome!](https://img.shields.io/badge/IP--Symcon-5.6-blue.svg)](https://www.symcon.de)
+[![IP-Symcon is awesome!](https://img.shields.io/badge/IP--Symcon-6.0-blue.svg)](https://www.symcon.de)
 [![Check Style](https://github.com/symcon/Gardena/workflows/Check%20Style/badge.svg)](https://github.com/symcon/Gardena/actions)
 [![Run Tests](https://github.com/symcon/Gardena/workflows/Run%20Tests/badge.svg)](https://github.com/symcon/Gardena/actions)
 
