@@ -8,26 +8,33 @@ class GardenaPowerSocket extends GardenaDevice
         'state' => [
             'displayName'  => 'State',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.State'
+            'profile'      => 'Gardena.State',
+            'position'     => 30
         ],
         'activity' => [
             'displayName'  => 'Activity',
             'variableType' => VARIABLETYPE_STRING,
             'profile'      => 'Gardena.Socket.Activity',
+            'position'     => 0
+
         ],
         'lastErrorCode' => [
             'displayName'  => 'Last Error',
             'variableType' => VARIABLETYPE_STRING,
-            'profile'      => 'Gardena.Socket.Error'
+            'profile'      => 'Gardena.Socket.Error',
+            'position'     => 20
+
         ],
         'duration' => [
             'displayName'  => 'Remaining',
             'variableType' => VARIABLETYPE_INTEGER,
-            'profile'      => 'Gardena.Seconds'
+            'profile'      => 'Gardena.Seconds',
+            'position'     => 10
         ]
     ];
     protected $exclude = ['name', 'serial', 'modelType'];
     protected $type = 'POWER_SOCKET';
+    protected $control = 'POWER_SOCKET_CONTROL';
 
     public function Create()
     {
@@ -87,12 +94,14 @@ class GardenaPowerSocket extends GardenaDevice
         //     IPS_SetVariableProfileAssociation('Gardena.PowerSocket.Commands.Schedule', 'UNPAUSE', $this->Translate('deactivate'), '', -1);
         // }
 
-        //On/off close commands
+        //On/off commands
         $this->RegisterVariableString('SocketControl', $this->Translate('Action'), 'Gardena.PowerSocket.Commands', 50);
         $this->SetValue('SocketControl', 'STOP_UNTIL_NEXT_TASK');
         $this->EnableAction('SocketControl');
         $this->RegisterVariableInteger('SocketDuration', $this->Translate('Active Duration'), 'Gardena.Command.Minutes', 40);
-        $this->SetValue('SocketDuration', 5);
+        if ($this->GetValue('SocketDuration') == 0) {
+            $this->SetValue('SocketDuration', 5);
+        }
         $this->EnableAction('SocketDuration');
 
         //Schedule commands
@@ -113,11 +122,10 @@ class GardenaPowerSocket extends GardenaDevice
             //     break;
 
             default:
+                $this->SetValue($Ident, $Value);
                 break;
 
         }
-
-        $this->SetValue($Ident, $Value);
     }
 
     protected function processData($data)
