@@ -136,7 +136,7 @@ declare(strict_types=1);
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             $url = IPS_GetProperty($parent, 'URL');
             return json_encode([
-                'URL'               => $url ? $url : 'wss://echo.websocket.org',
+                'URL'               => $url ? $url : 'wss://ws.ifelse.io',
                 'VerifyCertificate' => true
             ]);
         }
