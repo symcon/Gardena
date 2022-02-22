@@ -29,7 +29,7 @@
             "wrong PIN code": "Falscher PIN Code",
             "trapped": "Eingeklemmt",
             "upside down": "Umgedreht",
-            "empty battery": "Leere Batterie", 
+            "empty battery": "Leere Batterie",
             "no drive": "Kein Antrieb",
             "mower lifted": "Mäher angehoben",
             "stuck in charging station": "Steckt in Ladestation fest",
@@ -86,7 +86,7 @@
             " Minutes": " Minuten",
             "Device ID": "Geräte ID",
             "Show Last Transmission": "Letzte Übertragung anzeigen",
-"Last Transmission": "Letzte Übertragung"
+            "Last Transmission": "Letzte Übertragung"
         }
     }
 }

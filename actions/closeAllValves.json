@@ -6,9 +6,16 @@
         "RequestAction(IPS_GetObjectIDByIdent('ValveSetControl', $_IPS['TARGET']), 'STOP_UNTIL_NEXT_TASK');"
     ],
     "restrictions": {
-        "objectType": [ 1 ],
-        "moduleID": [ "{F90A415A-0C56-66E6-F37B-4C2E6DB36742}" ],
-        "includeEnvironments": [ "TestCommands", "Default" ]
+        "objectType": [
+            1
+        ],
+        "moduleID": [
+            "{F90A415A-0C56-66E6-F37B-4C2E6DB36742}"
+        ],
+        "includeEnvironments": [
+            "TestCommands",
+            "Default"
+        ]
     },
     "locale": {
         "de": {

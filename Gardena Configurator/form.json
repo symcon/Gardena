@@ -1,31 +1,39 @@
 {
-	"elements": [],
-	"actions": [{
-		"type": "Configurator",
-		"caption": "Configurator",
-		"delete": true,
-		"columns": [{
-			"caption": "ID",
-			"name": "ID",
-			"width": "300px",
-			"visible": false
-		}, {
-			"caption": "Name",
-			"name": "Name",
-			"width": "auto"
-		}, {
-			"caption": "Serial Number",
-			"name": "SerialNumber",
-			"width": "200px"
-		}, {
-			"caption": "State",
-			"name": "State",
-			"width": "150px"
-		}, {
-			"caption": "Type",
-			"name": "Type",
-			"width": "300px"
-		}],
-		"values": []
-	}]
+    "elements": [],
+    "actions": [
+        {
+            "type": "Configurator",
+            "caption": "Configurator",
+            "delete": true,
+            "columns": [
+                {
+                    "caption": "ID",
+                    "name": "ID",
+                    "width": "300px",
+                    "visible": false
+                },
+                {
+                    "caption": "Name",
+                    "name": "Name",
+                    "width": "auto"
+                },
+                {
+                    "caption": "Serial Number",
+                    "name": "SerialNumber",
+                    "width": "200px"
+                },
+                {
+                    "caption": "State",
+                    "name": "State",
+                    "width": "150px"
+                },
+                {
+                    "caption": "Type",
+                    "name": "Type",
+                    "width": "300px"
+                }
+            ],
+            "values": []
+        }
+    ]
 }

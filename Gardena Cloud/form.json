@@ -1,28 +1,27 @@
 {
-	"elements":
-	[
-		{
-			"type": "Button",
-			"caption": "Register",
-			"onClick": "echo GARDENA_Register($id);"
-		}
-	],
-	"actions": [
-		{
-			"type": "Label",
-			"caption": "When resetting the WebSocket all devices and theire values will be updated"
-		},
-		{
-			"type": "Button",
-			"caption": "Reset WebSocket",
-			"onClick": "GARDENA_UpdateWebSocket($id);"
-		}
-	],
-	"status": [
-		{
-			"code": 104,
-			"caption": "Account not connected",
-			"icon": "inactive"
-		}
-	]
+    "elements": [
+        {
+            "type": "Button",
+            "caption": "Register",
+            "onClick": "echo GARDENA_Register($id);"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Label",
+            "caption": "When resetting the WebSocket all devices and theire values will be updated"
+        },
+        {
+            "type": "Button",
+            "caption": "Reset WebSocket",
+            "onClick": "GARDENA_UpdateWebSocket($id);"
+        }
+    ],
+    "status": [
+        {
+            "code": 104,
+            "caption": "Account not connected",
+            "icon": "inactive"
+        }
+    ]
 }

@@ -6,10 +6,19 @@
         "RequestAction(IPS_GetObjectIDByIdent('SocketControl', $_IPS['TARGET']), 'STOP_UNTIL_NEXT_TASK');"
     ],
     "restrictions": {
-        "objectType": [ 1 ],
-        "moduleID": [ "{82A86222-2D04-585C-D411-B390627FBBF9}" ],
-        "includeEnvironments": ["TestCommands", "Default"],
-        "excludeEnvironments": ["EventSchedule"]
+        "objectType": [
+            1
+        ],
+        "moduleID": [
+            "{82A86222-2D04-585C-D411-B390627FBBF9}"
+        ],
+        "includeEnvironments": [
+            "TestCommands",
+            "Default"
+        ],
+        "excludeEnvironments": [
+            "EventSchedule"
+        ]
     },
     "locale": {
         "de": {

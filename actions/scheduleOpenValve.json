@@ -9,9 +9,15 @@
         "RequestAction(IPS_GetObjectIDByIdent('ValveControl', $_IPS['TARGET']), 'START_SECONDS_TO_OVERRIDE');"
     ],
     "restrictions": {
-        "objectType": [ 1 ],
-        "moduleID": [ "{68FFB073-8C93-C74C-B3CB-02778AEDE152}" ],
-        "includeEnvironments": ["EventSchedule"]
+        "objectType": [
+            1
+        ],
+        "moduleID": [
+            "{68FFB073-8C93-C74C-B3CB-02778AEDE152}"
+        ],
+        "includeEnvironments": [
+            "EventSchedule"
+        ]
     },
     "locale": {
         "de": {

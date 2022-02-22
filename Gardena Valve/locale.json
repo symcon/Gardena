@@ -19,7 +19,7 @@
             "master valve not connected": "Master Ventil nicht verbunden",
             "valve damaged": "Ventil beschädigt",
             "frost prevents starting": "Frost verhindert Start",
-            "low battery prevents starting" :"Schwache Batterie verhindert Start",
+            "low battery prevents starting": "Schwache Batterie verhindert Start",
             "valve power supply failed": "Stromversorgung des Ventils ausgefallen",
             "unknown": "Unbekannt",
             "Remaining": "Verbleibend",
@@ -37,7 +37,6 @@
             "Device ID": "Geräte ID",
             "Show Last Transmission": "Letzte Übertragung anzeigen",
             "Last Transmission": "Letzte Übertragung"
-
         }
     }
 }

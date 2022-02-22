@@ -1,10 +1,10 @@
 {
     "translations": {
-      "de": {
-        "Reset WebSocket" : "WebSocket zurücksetzen",
-        "Register": "Registrieren",
-        "When resetting the WebSocket all devices and theire values will be updated": "Beim Zurücksetzten des WebSockets werden alle Geräte und ihre Werte aktualisiert",
-        "IO instance is not active. Please activate the instance in order for the module to work": "IO Instanz ist nicht activ. Bitte aktivieren Sie die Instanz, damit das Modul funktioniert"
-      }
+        "de": {
+            "Reset WebSocket": "WebSocket zurücksetzen",
+            "Register": "Registrieren",
+            "When resetting the WebSocket all devices and theire values will be updated": "Beim Zurücksetzten des WebSockets werden alle Geräte und ihre Werte aktualisiert",
+            "IO instance is not active. Please activate the instance in order for the module to work": "IO Instanz ist nicht activ. Bitte aktivieren Sie die Instanz, damit das Modul funktioniert"
+        }
     }
-  }
+}

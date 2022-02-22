@@ -6,9 +6,16 @@
         "RequestAction(IPS_GetObjectIDByIdent('MowerStop', $_IPS['TARGET']), 'PARK_UNTIL_FURTHER_NOTICE');"
     ],
     "restrictions": {
-        "objectType": [ 1 ],
-        "moduleID": [ "{5E7255D9-6A2E-F10B-9430-360F00A66963}" ],
-        "includeEnvironments": [ "TestCommands", "Default" ]
+        "objectType": [
+            1
+        ],
+        "moduleID": [
+            "{5E7255D9-6A2E-F10B-9430-360F00A66963}"
+        ],
+        "includeEnvironments": [
+            "TestCommands",
+            "Default"
+        ]
     },
     "locale": {
         "de": {

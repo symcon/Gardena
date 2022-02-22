@@ -4,7 +4,9 @@
     "type": 4,
     "vendor": "Gardena",
     "aliases": [],
-    "parentRequirements": ["{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"],
+    "parentRequirements": [
+        "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"
+    ],
     "childRequirements": [],
     "implemented": [
         "{56245A2E-9937-C486-B7C0-DC30275EEDF6}"
