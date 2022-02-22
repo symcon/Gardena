@@ -192,7 +192,8 @@ declare(strict_types=1);
                 'http' => [
                     'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
                     'method'  => 'POST',
-                    'content' => http_build_query(['code' => $code])
+                    'content' => http_build_query(['code' => $code]),
+                    'ignore_errors' => true
                 ]
             ];
             $context = stream_context_create($options);
@@ -234,7 +235,8 @@ declare(strict_types=1);
                         'http' => [
                             'header'  => "Content-Type: application/x-www-form-urlencoded\r\n",
                             'method'  => 'POST',
-                            'content' => http_build_query(['refresh_token' => $this->ReadAttributeString('Token')])
+                            'content' => http_build_query(['refresh_token' => $this->ReadAttributeString('Token')]),
+                            'ignore_errors' => true
                         ]
                     ];
                     $context = stream_context_create($options);
