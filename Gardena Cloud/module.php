@@ -7,6 +7,7 @@ declare(strict_types=1);
     class GardenaCloud extends WebOAuthModule
     {
         const SMART_SYSTEM_BASE_URL = 'https://oauth.ipmagic.de/proxy/gardena/v1/';
+        const DEFAULT_WS_URL = 'wss://ws.ifelse.io';
 
         private $oauthIdentifer = 'gardena';
 
@@ -27,9 +28,7 @@ declare(strict_types=1);
 
             $this->RequireParent('{D68FD31F-0E90-7019-F16C-1949BD3079EF}');
 
-            $this->RegisterTimer('PingWebSocket', (120 * 1000), 'GARDENA_Ping($_IPS[\'TARGET\']);');
             $this->RegisterTimer('RetryTimer', 0, 'GARDENA_RetryUpdate($_IPS[\'TARGET\']);');
-            $this->RegisterTimer('ResetTimer', (8 * 60 * 60 * 1000), 'GARDENA_ResetRetry($_IPS[\'TARGET\']);');
 
             $this->RegisterMessage(IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
         }
@@ -82,8 +81,8 @@ declare(strict_types=1);
             if ($SenderID == $parentID) {
                 switch ($MessageID) {
                     case IM_CHANGESTATUS:
-                        //Update websocket if faulty and the url matches the api
-                        if ($Data[0] >= IS_EBASE && strpos(IPS_GetProperty($parentID, 'URL'), 'husqvarnagroup.net')) {
+                        //Update websocket if faulty and the url is not the default one
+                        if ($Data[0] >= IS_EBASE && (IPS_GetProperty($parentID, 'URL') != self::DEFAULT_WS_URL)) {
                             if ($this->GetTimerInterval('RetryTimer') == 0) {
                                 $this->RetryUpdate();
                             }
@@ -91,14 +90,6 @@ declare(strict_types=1);
                         break;
                 }
             }
-        }
-
-        public function Ping()
-        {
-            $this->SendDataToParent(json_encode([
-                'DataID' => '{79827379-F36E-4ADA-8A95-5F8D1DC92FA9}',
-                'Buffer' => utf8_encode('Ping'),
-            ]));
         }
 
         public function UpdateWebSocket()
@@ -136,25 +127,24 @@ declare(strict_types=1);
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             $url = IPS_GetProperty($parent, 'URL');
             return json_encode([
-                'URL'               => $url ? $url : 'wss://ws.ifelse.io',
+                'URL'               => $url ? $url : self::DEFAULT_WS_URL,
                 'VerifyCertificate' => true
             ]);
         }
 
         public function RetryUpdate()
         {
-            $errorCount = $this->ReadAttributeInteger('ErrorCount');
-            $this->SetTimerInterval('RetryTimer', pow(2, $errorCount++) * 1000);
-            $this->SendDebug('Error Counter', $errorCount, 0);
-            $this->SendDebug('Reconnect Timer', 'Retrying in  ' . pow(2, $errorCount) . ' seconds', 0);
-            $this->WriteAttributeInteger('ErrorCount', $errorCount);
-            $this->UpdateWebSocket();
-        }
-
-        public function ResetRetry()
-        {
-            $this->SetTimerInterval('RetryTimer', 0);
-            $this->WriteAttributeInteger('ErrorCount', 0);
+            if ($this->HasActiveParent()) {
+                $this->SetTimerInterval('RetryTimer', 0);
+                $this->WriteAttributeInteger('ErrorCount', 0);
+            } else {
+                $errorCount = $this->ReadAttributeInteger('ErrorCount');
+                $this->SetTimerInterval('RetryTimer', pow(2, $errorCount++) * 1000);
+                $this->SendDebug('Error Counter', $errorCount, 0);
+                $this->SendDebug('Reconnect Timer', 'Retrying in  ' . pow(2, $errorCount) . ' seconds', 0);
+                $this->WriteAttributeInteger('ErrorCount', $errorCount);
+                $this->UpdateWebSocket();
+            }
         }
 
         /**
