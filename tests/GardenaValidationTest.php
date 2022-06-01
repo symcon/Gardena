@@ -26,11 +26,6 @@ class GardenaValidationTest extends TestCaseSymconValidation
         $this->validateModule(__DIR__ . '/../Gardena Configurator');
     }
 
-    public function testValidateGardenaDevice(): void
-    {
-        $this->validateModule(__DIR__ . '/../Gardena Device');
-    }
-
     public function testValidateGardenaSensor(): void
     {
         $this->validateModule(__DIR__ . '/../Gardena Sensor');
