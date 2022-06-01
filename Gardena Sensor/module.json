@@ -2,7 +2,7 @@
     "id": "{22726FE1-1B92-292B-F544-C293D23DF937}",
     "name": "Gardena Sensor",
     "type": 3,
-    "vendor": "",
+    "vendor": "Gardena",
     "aliases": [],
     "parentRequirements": [
         "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"

@@ -2,7 +2,7 @@
     "id": "{68FFB073-8C93-C74C-B3CB-02778AEDE152}",
     "name": "Gardena Valve",
     "type": 3,
-    "vendor": "",
+    "vendor": "Gardena",
     "aliases": [],
     "parentRequirements": [
         "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"

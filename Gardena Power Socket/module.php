@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-include_once __DIR__ . '/../Gardena Device/module.php';
+include_once __DIR__ . '/../libs/GardenaDeviceModule.php';
 class GardenaPowerSocket extends GardenaDevice
 {
     protected $metadata = [
@@ -141,7 +141,7 @@ class GardenaPowerSocket extends GardenaDevice
         }
 
         $attributes = $data['attributes'];
-        if (!isset($attributes['duration']) && @IPS_GetObjectIDByIdent('duration', $this->InstanceID)) {
+        if (!isset($attributes['duration']) && @$this->GetIDForIdent('duration')) {
             $this->SetTimerInterval('UpdateDuration', 0);
             $this->SetValue('duration', 0);
         }

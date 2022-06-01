@@ -2,7 +2,7 @@
     "id": "{82A86222-2D04-585C-D411-B390627FBBF9}",
     "name": "Gardena Power Socket",
     "type": 3,
-    "vendor": "",
+    "vendor": "Gardena",
     "aliases": [],
     "parentRequirements": [
         "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"

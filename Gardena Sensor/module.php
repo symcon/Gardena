@@ -1,7 +1,7 @@
 <?php
 
 declare(strict_types=1);
-include_once __DIR__ . '/../Gardena Device/module.php';
+include_once __DIR__ . '/../libs/GardenaDeviceModule.php';
 class GardenaSensor extends GardenaDevice
 {
     protected $metadata = [

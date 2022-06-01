@@ -2,7 +2,7 @@
     "id": "{FD9A4547-26FE-A75F-B636-839CAB25EACA}",
     "name": "Gardena Common",
     "type": 3,
-    "vendor": "",
+    "vendor": "Gardena",
     "aliases": [],
     "parentRequirements": [
         "{793F0A25-9FFE-DC27-25D6-8A574EE74C39}"
