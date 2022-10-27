@@ -167,7 +167,6 @@ class GardenaMower extends GardenaDevice
         $this->SetValue('MowerStart', '');
         $this->EnableAction('MowerStart');
         $this->RegisterVariableInteger('MowerDuration', $this->Translate('Cutting Duration'), 'Gardena.Command.Minutes', 50);
-        $this->SetValue('MowerDuration', 5);
         $this->EnableAction('MowerDuration');
 
         //Stop commands
