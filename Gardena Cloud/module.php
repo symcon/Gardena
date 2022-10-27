@@ -81,8 +81,8 @@ declare(strict_types=1);
             if ($SenderID == $parentID) {
                 switch ($MessageID) {
                     case IM_CHANGESTATUS:
-                        //Update websocket if faulty and the url is not the default one
-                        if ($Data[0] >= IS_EBASE && (IPS_GetProperty($parentID, 'URL') != self::DEFAULT_WS_URL)) {
+                        //Update websocket if faulty
+                        if ($Data[0] >= IS_EBASE) {
                             if ($this->GetTimerInterval('RetryTimer') == 0) {
                                 $this->RetryUpdate();
                             }
