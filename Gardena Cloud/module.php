@@ -86,6 +86,8 @@ declare(strict_types=1);
                             if ($this->GetTimerInterval('RetryTimer') == 0) {
                                 $this->RetryUpdate();
                             }
+                        } elseif ($Data[0] == IS_ACTIVE) {
+                            $this->RetryUpdate();
                         }
                         break;
                 }
@@ -112,6 +114,7 @@ declare(strict_types=1);
             );
 
             $response = json_decode($this->postData('websocket', $payload), true);
+            $this->SendDebug('Update WS Response', json_encode($response), 0);
             $url = $response['data']['attributes']['url'];
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             if (!IPS_GetProperty($parent, 'Active')) {
@@ -137,11 +140,15 @@ declare(strict_types=1);
             if ($this->HasActiveParent()) {
                 $this->SetTimerInterval('RetryTimer', 0);
                 $this->WriteAttributeInteger('ErrorCount', 0);
+                $this->SendDebug('Reset Error', '', 0);
             } else {
                 $errorCount = $this->ReadAttributeInteger('ErrorCount');
-                $this->SetTimerInterval('RetryTimer', pow(2, $errorCount++) * 1000);
+                $errorCount++;
+                //clamp the intervall at one hour to prevent a possible integer overflow
+                $retrySeconds = max(0, min(pow(2, $errorCount), 3600));
+                $this->SetTimerInterval('RetryTimer', $retrySeconds * 1000);
                 $this->SendDebug('Error Counter', $errorCount, 0);
-                $this->SendDebug('Reconnect Timer', 'Retrying in  ' . pow(2, $errorCount) . ' seconds', 0);
+                $this->SendDebug('Reconnect Timer', 'Retrying in  ' . $retrySeconds . ' seconds', 0);
                 $this->WriteAttributeInteger('ErrorCount', $errorCount);
                 $this->UpdateWebSocket();
             }
