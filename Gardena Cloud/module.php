@@ -123,7 +123,7 @@ declare(strict_types=1);
             }
             $this->SendDebug('Update WS Response', $response, 0);
             $data = json_decode($response, true);
-            $url = $response['data']['attributes']['url'];
+            $url = $data['data']['attributes']['url'];
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             if (!IPS_GetProperty($parent, 'Active')) {
                 echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to work');
