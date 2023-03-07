@@ -145,12 +145,15 @@ declare(strict_types=1);
                 $errorCount = $this->ReadAttributeInteger('ErrorCount');
                 $errorCount++;
                 //clamp the intervall at one hour to prevent a possible integer overflow
-                $retrySeconds = max(0, min(pow(2, $errorCount), 3600));
+                $retrySeconds = max(0, min(pow(2, $errorCount) * 10, 3600));
                 $this->SetTimerInterval('RetryTimer', $retrySeconds * 1000);
                 $this->SendDebug('Error Counter', $errorCount, 0);
                 $this->SendDebug('Reconnect Timer', 'Retrying in  ' . $retrySeconds . ' seconds', 0);
                 $this->WriteAttributeInteger('ErrorCount', $errorCount);
-                $this->UpdateWebSocket();
+                //We always want to retry after a timeout
+                if ($errorCount > 1) {
+                    $this->UpdateWebSocket();
+                }
             }
         }
 
