@@ -100,7 +100,11 @@ declare(strict_types=1);
             if ($this->GetStatus() != IS_ACTIVE) {
                 return;
             }
-            $locationID = json_decode($this->getData('locations'), true)['data'][0]['id'];
+            $response = $this->getData('locations');
+            if ($response === false) {
+                return;
+            }
+            $locationID = json_decode($response, true)['data'][0]['id'];
             $payload = json_encode(
                 [
                     'data' => [
@@ -113,8 +117,12 @@ declare(strict_types=1);
                 ]
             );
 
-            $response = json_decode($this->postData('websocket', $payload), true);
-            $this->SendDebug('Update WS Response', json_encode($response), 0);
+            $response = $this->postData('websocket', $payload);
+            if ($response === false) {
+                return;
+            }
+            $this->SendDebug('Update WS Response', $response, 0);
+            $data = json_decode($response, true);
             $url = $response['data']['attributes']['url'];
             $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
             if (!IPS_GetProperty($parent, 'Active')) {
@@ -289,6 +297,10 @@ declare(strict_types=1);
             $result = file_get_contents(self::SMART_SYSTEM_BASE_URL . $endpoint, false, $context);
 
             if ((strpos($http_response_header[0], '200') === false)) {
+                //If we hit a rate limit we want to wait 24h
+                if ((strpos($http_response_header[0], '429') !== false)) {
+                    $this->SetTimerInterval('RetryTimer', 60 * 60 * 24 * 1000);
+                }
                 echo $http_response_header[0] . PHP_EOL . $result;
                 return false;
             }
