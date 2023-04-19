@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit>
-    <php>
-        <const name="PHPUNIT_TESTSUITE" value="true"/>
-    </php>
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">../Gardena</directory>
-            <directory suffix=".php">../Gardena Cloud</directory>
-            <directory suffix=".php">../Gardena Common</directory>
-            <directory suffix=".php">../Gardena Configurator</directory>
-            <directory suffix=".php">../Gardena Device</directory>
-            <directory suffix=".php">../Gardena Sensor</directory>
-        </whitelist>
-    </filter>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd" cacheDirectory=".phpunit.cache">
+  <coverage/>
+  <php>
+    <const name="PHPUNIT_TESTSUITE" value="true"/>
+  </php>
+  <source>
+    <include>
+      <directory suffix=".php">../Gardena</directory>
+      <directory suffix=".php">../Gardena Cloud</directory>
+      <directory suffix=".php">../Gardena Common</directory>
+      <directory suffix=".php">../Gardena Configurator</directory>
+      <directory suffix=".php">../Gardena Device</directory>
+      <directory suffix=".php">../Gardena Sensor</directory>
+    </include>
+  </source>
 </phpunit>
