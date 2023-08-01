@@ -50,6 +50,9 @@ class GardenaDevice extends IPSModule
 
     public function ReceiveData($JSONString)
     {
+        if ($JSONString === false) {
+            return;
+        }
         //Decoding dataflow
         $data = json_decode($JSONString, true);
         //Decoding websocket event
