@@ -33,6 +33,7 @@
                     "width": "300px"
                 }
             ],
+            "discoveryInterval": 21600,
             "values": []
         }
     ]
