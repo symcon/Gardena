@@ -139,7 +139,8 @@ declare(strict_types=1);
             $url = IPS_GetProperty($parent, 'URL');
             return json_encode([
                 'URL'               => $url ? $url : self::DEFAULT_WS_URL,
-                'VerifyCertificate' => true
+                'VerifyCertificate' => true,
+                'Type'              => 0,
             ]);
         }
 
