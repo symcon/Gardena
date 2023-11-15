@@ -4,7 +4,7 @@ declare(strict_types=1);
 include_once __DIR__ . '/../libs/GardenaDeviceModule.php';
 class GardenaMower extends GardenaDevice
 {
-    const ERROR_CODES = [
+    public const ERROR_CODES = [
         'TILT_SENSOR_PROBLEM'          => 'tilt sensor problem',
         'MOWER_TILTED'                 => 'mower tilted',
         'WHEEL_MOTOR_OVERLOADED_RIGHT' => 'wheel motor overloaded, right',
