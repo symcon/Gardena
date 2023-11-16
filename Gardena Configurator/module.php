@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 class GardenaConfigurator extends IPSModule
 {
-    const INSTANCE_TYPES = [
+    public const INSTANCE_TYPES = [
         'DEFAULT'            => '{A927BE2B-EFCC-0AB7-533B-54F2981AFC9E}',
         'COMMON'             => '{FD9A4547-26FE-A75F-B636-839CAB25EACA}',
         'SENSOR'             => '{22726FE1-1B92-292B-F544-C293D23DF937}',
@@ -14,14 +14,14 @@ class GardenaConfigurator extends IPSModule
         'POWER_SOCKET'       => '{82A86222-2D04-585C-D411-B390627FBBF9}'
     ];
 
-    const STATES = [
+    public const STATES = [
         'OK'          => 'ok',
         'UNAVAILABLE' => 'unavailable',
         'ERROR'       => 'error',
         'WARNING'     => 'warning'
     ];
 
-    const SERVICE_NAMES = [
+    public const SERVICE_NAMES = [
         'COMMON'       => 'common',
         'VALVE'        => 'valve',
         'VALVE_SET'    => 'main valve',
@@ -75,61 +75,61 @@ class GardenaConfigurator extends IPSModule
             foreach ($allDevices as $device) {
                 if ($device['id'] == $id) {
                     switch ($device['type']) {
-                            case 'COMMON':
-                                //Add device to 1 level
-                                $devices[] = $this->buildDeviceValues($device, $mainDevice, $location);
-                                break;
+                        case 'COMMON':
+                            //Add device to 1 level
+                            $devices[] = $this->buildDeviceValues($device, $mainDevice, $location);
+                            break;
 
-                            case 'DEVICE':
-                                foreach ($device['relationships']['services']['data'] as $service) {
-                                    $moduleGUID = $this->getGuidForType($service['type']);
-                                    switch ($service['type']) {
-                                        case 'COMMON':
-                                            $deviceName = $this->Translate('Device Information');
-                                            break;
+                        case 'DEVICE':
+                            foreach ($device['relationships']['services']['data'] as $service) {
+                                $moduleGUID = $this->getGuidForType($service['type']);
+                                switch ($service['type']) {
+                                    case 'COMMON':
+                                        $deviceName = $this->Translate('Device Information');
+                                        break;
 
-                                        case 'VALVE_SET':
-                                            $deviceName = $this->Translate('Main Valve');
-                                            break;
+                                    case 'VALVE_SET':
+                                        $deviceName = $this->Translate('Main Valve');
+                                        break;
 
-                                        case 'VALVE':
-                                            $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
-                                            //Translate default valve names
-                                            preg_match_all('/(Valve) ([1-6])/m', $deviceName, $matches);
-                                            if ($matches[0]) {
-                                                $deviceName = sprintf('%s %d', $this->Translate($matches[1][0]), $matches[2][0]);
-                                                $this->SendDebug('Name', $deviceName, 0);
-                                            }
-                                            break;
-                                        default:
-                                            $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
-                                            break;
-                                    }
-                                    $services[] = [
-                                        'id'           => $service['id'] . $service['type'],
-                                        'ID'           => $service['id'],
-                                        'Name'         => $deviceName,
-                                        'SerialNumber' => '',
-                                        'Type'         => $this->getServiceDisplayName($service['type']),
-                                        'State'        => $this->getServiceState($service['id'], $allDevices),
-                                        'parent'       => $id . $mainDevice['type'],
-                                        'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
-                                        'create'       => [
-                                            'moduleID'      => $moduleGUID,
-                                            'configuration' => [
-                                                'ID' => $service['id']
-                                            ],
-                                            'name'     => $deviceName,
-                                            'location' => [
-                                                $this->Translate($location['data']['attributes']['name']),
-                                                $this->getCommonDeviceName($device['id'], $allDevices)
-                                            ]
-                                        ]
-                                    ];
+                                    case 'VALVE':
+                                        $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
+                                        //Translate default valve names
+                                        preg_match_all('/(Valve) ([1-6])/m', $deviceName, $matches);
+                                        if ($matches[0]) {
+                                            $deviceName = sprintf('%s %d', $this->Translate($matches[1][0]), $matches[2][0]);
+                                            $this->SendDebug('Name', $deviceName, 0);
+                                        }
+                                        break;
+                                    default:
+                                        $deviceName = $this->getCommonDeviceName($service['id'], $allDevices);
+                                        break;
                                 }
-                                break;
+                                $services[] = [
+                                    'id'           => $service['id'] . $service['type'],
+                                    'ID'           => $service['id'],
+                                    'Name'         => $deviceName,
+                                    'SerialNumber' => '',
+                                    'Type'         => $this->getServiceDisplayName($service['type']),
+                                    'State'        => $this->getServiceState($service['id'], $allDevices),
+                                    'parent'       => $id . $mainDevice['type'],
+                                    'instanceID'   => $this->getInstanceIDForGuid($service['id'], $moduleGUID),
+                                    'create'       => [
+                                        'moduleID'      => $moduleGUID,
+                                        'configuration' => [
+                                            'ID' => $service['id']
+                                        ],
+                                        'name'     => $deviceName,
+                                        'location' => [
+                                            $this->Translate($location['data']['attributes']['name']),
+                                            $this->getCommonDeviceName($device['id'], $allDevices)
+                                        ]
+                                    ]
+                                ];
+                            }
+                            break;
 
-                        }
+                    }
                 }
             }
         }

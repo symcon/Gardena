@@ -124,15 +124,15 @@ class GardenaDevice extends IPSModule
                 }
             } elseif (!in_array($attribute, $this->exclude)) {
                 switch (gettype($value['value'])) {
-                            case 'double':
-                            case 'integer':
-                                $variablType = VARIABLETYPE_FLOAT;
-                                break;
+                    case 'double':
+                    case 'integer':
+                        $variablType = VARIABLETYPE_FLOAT;
+                        break;
 
-                            default:
-                                $variableType = VARIABLETYPE_STRING;
-                                break;
-                        }
+                    default:
+                        $variableType = VARIABLETYPE_STRING;
+                        break;
+                }
                 $this->MaintainVariable($attribute, $attribute, $variableType, '', 0, true);
                 $this->SetValue($attribute, $value['value']);
             }

@@ -126,9 +126,9 @@ class GardenaValve extends GardenaDevice
                 $this->ControlService($this->ReadPropertyString('ID'), $Value, 60 * $this->GetValue('ValveDuration'));
                 break;
 
-            // case 'ScheduleControl':
-            //     $this->ControlService($this->ReadPropertyString('ID'), $Value);
-            //     break;
+                // case 'ScheduleControl':
+                //     $this->ControlService($this->ReadPropertyString('ID'), $Value);
+                //     break;
 
             default:
                 $this->SetValue($Ident, $Value);
