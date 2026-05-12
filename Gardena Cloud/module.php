@@ -30,7 +30,7 @@ class GardenaCloud extends WebOAuthModule
 
         $this->RegisterTimer('RetryTimer', 0, 'GARDENA_RetryUpdate($_IPS[\'TARGET\']);');
 
-        $this->RegisterMessage(IPS_GetInstance($this->InstanceID)['ConnectionID'], IM_CHANGESTATUS);
+        $this->RegisterMessage($this->InstanceID, FM_CONNECT);
     }
 
     public function ApplyChanges()
@@ -92,6 +92,14 @@ class GardenaCloud extends WebOAuthModule
                     break;
             }
         }
+        if ($SenderID == $this->InstanceID) {
+            switch ($MessageID) {
+                case FM_CONNECT:
+                    $this->RegisterMessage($Data[0], IM_CHANGESTATUS);
+                    $this->ForceUpdateWebSocket();
+                    break;
+            }
+        }
     }
 
     public function UpdateWebSocket()
@@ -124,7 +132,12 @@ class GardenaCloud extends WebOAuthModule
         $this->SendDebug('Update WS Response', $response, 0);
         $data = json_decode($response, true);
         $url = $data['data']['attributes']['url'];
+        $this->SetBuffer('WebSocketURL', $url);
         $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+        if (!IPS_InstanceExists($parent)) {
+            // The parent does not exist yet. We will populate the url using the buffer in GetConfigurationForParent when the parent requests it.
+            return;
+        }
         if (!IPS_GetProperty($parent, 'Active')) {
             echo $this->Translate('IO instance is not active. Please activate the instance in order for the module to work');
             return;
@@ -137,8 +150,10 @@ class GardenaCloud extends WebOAuthModule
     {
         $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
         $url = IPS_GetProperty($parent, 'URL');
+        $bufferUrl = $this->GetBuffer('WebSocketURL');
+        $this->SetBuffer('WebSocketURL', ''); //Clear buffer after use
         return json_encode([
-            'URL'               => $url ? $url : self::DEFAULT_WS_URL,
+            'URL'               => $bufferUrl ? $bufferUrl : ($url ? $url : self::DEFAULT_WS_URL),
             'VerifyCertificate' => true,
             'Type'              => 0,
         ]);
@@ -184,12 +199,25 @@ class GardenaCloud extends WebOAuthModule
 
             $this->WriteAttributeString('Token', $token);
             $this->SetStatus(IS_ACTIVE);
-            $this->UpdateWebSocket();
+            $this->ForceUpdateWebSocket();
         } else {
 
             //Just print raw post data!
             echo file_get_contents('php://input');
         }
+    }
+
+    private function ForceUpdateWebSocket()
+    {
+        $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+        if (IPS_InstanceExists($parent)) {
+            $url = IPS_GetProperty($parent, 'URL');
+            // We need a vaild url when activatinng to avoid an initial error
+            IPS_SetProperty($parent, 'URL', $url ? $url : self::DEFAULT_WS_URL);
+            IPS_SetProperty($parent, 'Active', true);
+            IPS_ApplyChanges($parent);
+        }
+        $this->UpdateWebSocket();
     }
 
     private function FetchRefreshToken($code)
