@@ -22,6 +22,8 @@ class GardenaDevice extends IPSModule
 
         //Timer
         $this->RegisterTimer('UpdateDuration', 0, 'GARDENA_UpdateDuration($_IPS[\'TARGET\']);');
+
+        $this->RegisterMessage($this->InstanceID, FM_CONNECT);
     }
 
     public function Destroy()
@@ -35,17 +37,24 @@ class GardenaDevice extends IPSModule
         //Never delete this line!
         parent::ApplyChanges();
 
-        if (IPS_GetKernelRunlevel() == KR_READY) {
-            if ($this->HasActiveParent()) {
-                $locationID = $this->requestDataFromParent('locations')['data'][0]['id'];
-                $location = $this->requestDataFromParent("locations/$locationID");
-                foreach ($location['included'] as $data) {
-                    $this->processData($data);
-                }
+        $this->SetReceiveDataFilter('.*' . $this->ReadPropertyString('ID') . '.*');
+    }
+
+    public function MessageSink($Timestamp, $SenderID, $MessageID, $Data)
+    {
+        if ($SenderID == $this->InstanceID) {
+            switch ($MessageID) {
+                case FM_CONNECT:
+                    $locationID = $this->requestDataFromParent('locations')['data'][0]['id'];
+                    $location = $this->requestDataFromParent("locations/$locationID");
+                    $this->LogMessage(json_encode($location), KL_NOTIFY);
+                    foreach ($location['included'] as $data) {
+                        $this->LogMessage('Processing data for ' . $data['type'] . ' with id ' . $data['id'] . ' ' . json_encode($data), KL_NOTIFY);
+                        $this->processData($data);
+                    }
+                    break;
             }
         }
-
-        $this->SetReceiveDataFilter('.*' . $this->ReadPropertyString('ID') . '.*');
     }
 
     public function ReceiveData($JSONString)
