@@ -31,6 +31,11 @@ class GardenaCloud extends WebOAuthModule
         $this->RegisterTimer('RetryTimer', 0, 'GARDENA_RetryUpdate($_IPS[\'TARGET\']);');
 
         $this->RegisterMessage($this->InstanceID, FM_CONNECT);
+
+        $parent = IPS_GetInstance($this->InstanceID)['ConnectionID'];
+        if (IPS_InstanceExists($parent)) {
+            $this->RegisterMessage($parent, IM_CHANGESTATUS);
+        }
     }
 
     public function ApplyChanges()
